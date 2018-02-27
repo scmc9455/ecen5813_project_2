@@ -26,21 +26,55 @@ Created for ECEN5813
 #include <stdint.h>
 #include <stdlib.h>
 
-#define RGB_RED_PIN        (???)
-#define RGB_GREEN_PIN      (???)
-#define RGB_BLUE_PIN       (???)
+/*BITS corresponding to the pins of the register*/
+#define PIN18              (1 << 18)
+#define PIN19              (1 << 19)
+#define PIN1               (1 << 1)
 
-#define RGB_RED_ON()     (PORTB_Set( RGB_RED_PIN ))
-#define RGB_RED_OFF()    (PORTB_Clear( RGB_RED_PIN ))
-#define RGB_RED_TOGGLE() (PORTB_Toggle( RGB_RED_PIN ))
+/*direct dereferencing to PORTB PTB18 crtl*/
+#define PORTB_PCR18        (*((volatile uint32_t *)(0x4004A048))) 
+/*direct dereferencing to PORTB PTB18 crtl*/
+#define PORTB_PCR19        (*((volatile uint32_t *)(0x4004A04C))) 
+/*direct dereferencing to PORTD PTD1 crtl*/
+#define PORTD_PCR1         (*((volatile uint32_t *)(0x4004C004)))
+/*Value specified for the PCR functions*/
+#define ALT1               (0x001 << 8) 
+
+/*direct dereferencing to GPIOB direction crtl register*/
+#define GPIOB_PDDR         (*((volatile uint32_t *)(0x400FF054))) 
+/*direct dereferencing to GPIOD direction crtl register*/
+#define GPIOD_PDDR         (*((volatile uint32_t *)(0x400FF0D4))) 
+
+/*direct dereferencing to GPIOB SET crtl register*/
+#define GPIOB_PSOR         (*((volatile uint32_t *)(0x400FF044)))
+/*direct dereferencing to GPIOD SET crtl register*/
+#define GPIOD_PSOR         (*((volatile uint32_t *)(0x400FF0C4)))
+
+/*direct dereferencing to GPIOB CLEAR crtl register*/
+#define GPIOB_PCOR         (*((volatile uint32_t *)(0x400FF048)))
+/*direct dereferencing to GPIOD CLEAR crtl register*/
+#define GPIOD_PCOR         (*((volatile uint32_t *)(0x400FF088)))
+ 
+/*direct dereferencing to GPIOB TOGGLE crtl register*/
+#define GPIOB_PTOR         (*((volatile uint32_t *)(0x400FF04C)))
+/*direct dereferencing to GPIOD TOGGLE crtl register*/
+#define GPIOD_PTOR         (*((volatile uint32_t *)(0x400FF0CC)))
+
+#define RGB_RED_PIN        (PIN18)
+#define RGB_GREEN_PIN      (PIN19)
+#define RGB_BLUE_PIN       (PIN1)
+
+#define RGB_RED_ON()       (PORTB_Set( RGB_RED_PIN ))
+#define RGB_RED_OFF()      (PORTB_Clear( RGB_RED_PIN ))
+#define RGB_RED_TOGGLE()   (PORTB_Toggle( RGB_RED_PIN ))
 
 #define RGB_GREEN_ON()     (PORTB_Set( RGB_GREEN_PIN ))
 #define RGB_GREEN_OFF()    (PORTB_Clear( RGB_GREEN_PIN ))
 #define RGB_GREEN_TOGGLE() (PORTB_Toggle( RGB_GREEN_PIN ))
 
-#define RGB_BLUE_ON()     (PORTD_Set( RGB_BLUE_PIN ))
-#define RGB_BLUE_OFF()    (PORTD_Clear( RGB_BLUE_PIN ))
-#define RGB_BLUE_TOGGLE() (PORTD_Toggle( RGB_BLUE_PIN ))
+#define RGB_BLUE_ON()      (PORTD_Set( RGB_BLUE_PIN ))
+#define RGB_BLUE_OFF()     (PORTD_Clear( RGB_BLUE_PIN ))
+#define RGB_BLUE_TOGGLE()  (PORTD_Toggle( RGB_BLUE_PIN ))
 
 /*********************************************************************************************/
 /******************************GPIO_Configure*************************************************/
