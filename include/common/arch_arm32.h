@@ -24,24 +24,24 @@ Created for ECEN5813
 
 #include <stdint.h>
 
-#define __SCB_ADDRESS                     (0xE000ED00)
-#define __AIRCR_ADDRESS_OFFSET            (12)
-#define __AIRCR                           (__SCB_ADDRESS + __AIRCR_ADDRESS_OFFSET)
-#define __AIRCR_ENDIANNESS_OFFSET         (16)
-#define __AIRCR_ENDIANNESS_MASK           (0x00008000)
+#define __SCB_ADDRESS               (0xE000ED00)
+#define __AIRCR_ADDRESS_OFFSET      (12)
+#define __AIRCR              (*((volatile uint32_t *)(__SCB_ADDRESS + __AIRCR_ADDRESS_OFFSET)))
+#define __AIRCR_ENDIANNESS_OFFSET   (16)
+#define __AIRCR_ENDIANNESS_MASK     (0x00008000)
 
-#define __CPUID_ADDRESS_OFFSET             (???)
-#define __CPUID                            (???)
-#define __CPUID_PART_NO_OFFSET             (???)
-#define __CPUID_PART_NO_MASK               (???)
-#define __CCRID_ADDRESS_OFFSET             (???)
-#define __CCR                              (???)
-#define __CCR_STK_ALIGNMENT_OFFSET         (???)
-#define __CCR_STK_ALIGNMENT_MASK           (???)
-#define __CCR_UNALIGNED_ACCESS_TRAP_OFFSET (???)
-#define __CCR_UNALIGNED_ACCESS_TRAP_MASK   (???)
-#define __CCR_DIVIDE_BY_ZERO_TRAP_OFFSET   (???)
-#define __CCR_DIVIDE_BY_ZERO_TRAP_MASK     (???)
+#define __CPUID_ADDRESS_OFFSET      (0x0)
+#define __CPUID              (*((volatile uint32_t *)(__SCB_ADDRESS + __CPUID_ADDRESS_OFFSET)))
+#define __CPUID_PART_NO_OFFSET      (4)
+#define __CPUID_PART_NO_MASK        (0xFFF0)
+#define __CCRID_ADDRESS_OFFSET      (20)
+#define __CCR                (*((volatile uint32_t *)(__SCB_ADDRESS + __CCRID_ADDRESS_OFFSET)))
+#define __CCR_STK_ALIGNMENT_OFFSET  (9)
+#define __CCR_STK_ALIGNMENT_MASK           (1 << __CCR_STK_ALIGNMENT_OFFSET)
+#define __CCR_UNALIGNED_ACCESS_TRAP_OFFSET (3)
+#define __CCR_UNALIGNED_ACCESS_TRAP_MASK   (1 << __CCR_UNALIGNED_ACCESS_TRAP_OFFSET)
+#define __CCR_DIVIDE_BY_ZERO_TRAP_OFFSET   (4)
+#define __CCR_DIVIDE_BY_ZERO_TRAP_MASK     (1 << __CCR_DIVIDE_BY_ZERO_TRAP_OFFSET)
 
 /*********************************************************************************************/
 /****************ARM32_AIRCR_get_endianness_setting**********************************************/

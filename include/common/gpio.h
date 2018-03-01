@@ -27,6 +27,11 @@ Created for ECEN5813
 #include <stdlib.h>
 
 /*BITS corresponding to the pins of the register*/
+#define SIM_SCGC5          (*((uint32_t *)(0x40048038)))
+#define SIM_SCGC5_PORTB    (1 << 10)
+#define SIM_SCGC5_PORTD    (1 << 12)
+
+/*BITS corresponding to the pins of the register*/
 #define PIN18              (1 << 18)
 #define PIN19              (1 << 19)
 #define PIN1               (1 << 1)
@@ -90,7 +95,7 @@ Blue LED is PORTD-Pin1 initial state off
 @return - void
 **********************************************************************************************/
 
-static inline void GPIO_Configure() __attribute__ ((always_inline)) ;
+static inline void GPIO_Configure() __attribute__ ((always_inline));
 
 /*********************************************************************************************/
 /******************************Toggle_RED_LED*************************************************/

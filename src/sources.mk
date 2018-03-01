@@ -23,5 +23,5 @@ SRCS = ./data1.c ./debug.c ./memory.c ./conversion.c \
 #if no platform is speced, make defaults to native compiler
 else
 SRCS = ./data1.c ./debug.c ./memory.c ./conversion.c \
-./project1.c ./main.c
+./project1.c ./main.c ./gpio.c
 endif

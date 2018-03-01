@@ -41,6 +41,9 @@ Blue LED is PORTD-Pin1 initial state off
 
 __attribute__ ((always_inline)) static inline void GPIO_Configure()
 {
+    /*Turn the clock on for the portB and portD modules*/
+    SIM_SCGC5 |= (SIM_SCGC5_PORTB + SIM_SCGC5_PORTD)
+
     PORTB_PCR18 |= ALT1; /*Sets the portB_pin18 to be gpio*/
     PORTB_PCR19 |= ALT1; /*Sets the portB_pin19 to be gpio*/
     PORTD_PCR1 |= ALT1;  /*Sets the portD_pin1 to be gpio*/
@@ -77,7 +80,7 @@ __attribute__ ((always_inline)) static inline void Toggle_Red_LED()
 
 __attribute__ ((always_inline)) static inline void PORTB_Set(uint8_t bit_num)
 {
-    GPIOB_PSOR |= (1 << bit_num); /*sets the value in the port b register based on bit number*/
+    GPIOB_PSOR |= (0x1 << bit_num);/*sets the value in the port b register based on bit number*/
 }
 
 /*********************************************************************************************/
@@ -91,7 +94,7 @@ __attribute__ ((always_inline)) static inline void PORTB_Set(uint8_t bit_num)
 
 __attribute__ ((always_inline)) static inline void PORTD_Set(uint8_t bit_num)
 {
-    GPIOD_PSOR |= (1 << bit_num); /*sets the value in the port d register based on bit number*/
+    GPIOD_PSOR |= (0x1 << bit_num);/*sets the value in the port d register based on bit number*/
 }
 
 /*********************************************************************************************/
@@ -105,7 +108,7 @@ __attribute__ ((always_inline)) static inline void PORTD_Set(uint8_t bit_num)
 
 __attribute__ ((always_inline)) static inline void PORTB_Clear(uint8_t bit_num)
 {
-    GPIOB_PCOR |= (1 << bit_num); /*clears the value in port b register based on bit number*/
+    GPIOB_PCOR |= (0x1 << bit_num); /*clears the value in port b register based on bit number*/
 }
 
 /*********************************************************************************************/
@@ -119,7 +122,7 @@ __attribute__ ((always_inline)) static inline void PORTB_Clear(uint8_t bit_num)
 
 __attribute__ ((always_inline)) static inline void PORTD_Clear(uint8_t bit_num)
 {
-    GPIOD_PCOR |= (1 << bit_num); /*clears the value in port d register from bit number*/    
+    GPIOD_PCOR |= (0x1 << bit_num); /*clears the value in port d register from bit number*/    
 }
 
 /*********************************************************************************************/
@@ -133,7 +136,7 @@ __attribute__ ((always_inline)) static inline void PORTD_Clear(uint8_t bit_num)
 
 __attribute__ ((always_inline)) static inline void PORTB_Toggle(uint8_t bit_num)
 {
-    GPIOB_PTOR |= (1 << bit_num); /*toggles port b register based on bit number*/    
+    GPIOB_PTOR |= (0x1 << bit_num); /*toggles port b register based on bit number*/    
 }
 
 /*********************************************************************************************/
@@ -147,7 +150,7 @@ __attribute__ ((always_inline)) static inline void PORTB_Toggle(uint8_t bit_num)
 
 __attribute__ ((always_inline)) static inline void PORTD_Toggle(uint8_t bit_num)
 {
-    GPIOD_PTOR |= (1 << bit_num); /*toggles port d register based on bit number*/       
+    GPIOD_PTOR |= (0x1 << bit_num); /*toggles port d register based on bit number*/       
 }
 
 /*********************************************************************************************/

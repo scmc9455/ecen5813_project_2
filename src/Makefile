@@ -164,6 +164,9 @@ system_MKL25Z4.o:system_MKL25Z4.c
 startup_MKL25Z4.o:startup_MKL25Z4.S
 	$(CC) $(CFLAGS) $(INCLUDES) startup_MKL25Z4.S -M -o startup_MKL25Z4.o
 
+gpio.o:gpio.c
+	$(CC) $(CFLAGS) $(INCLUDES) gpio.c -c -o gpio.o
+
 #**************************End of File************************************
 #************************************************************************
 

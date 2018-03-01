@@ -62,7 +62,9 @@ dereferenced.
 
 __attribute__ ((always_inline)) static inline uint32_t ARM32_CCR_get_stack_alignment()
 {
-  return 0;
+  /*The below statement will return the value of the stack alignment from CCR*/
+  /*and will shift down by the offset to return either 1(8-byte aligned) or 0(4-byte aligned)*/
+    return (((__CCR) & (__CCR_STK_ALIGNMENT_MASK)) >> __CCR_STK_ALIGNMENT_OFFSET);
 }
 
 /*********************************************************************************************/
@@ -79,7 +81,8 @@ the direct memory dereferenced value
 
 __attribute__ ((always_inline)) static inline uint32_t ARM32_CPUID_get_part_number()
 {
-  return 0xC24;
+    /*This line deferences the part number and shift by the offset to return 0xC24*/
+    return (((__CPUID) & (__CPUID_PART_NO_MASK)) >> __CPUID_PART_NO_OFFSET);
 }
 
 /*********************************************************************************************/
@@ -96,7 +99,10 @@ This function uses a direct memory dereference
 
 __attribute__ ((always_inline)) static inline uint32_t ARM32_CCR_enable_divide_by_zero()
 {
-  return 1;
+    /*The below value sets the divde by zero trap in the CCR register direct de-ref*/
+    __CCR |= __CCR_DIVIDE_BY_ZERO_TRAP_MASK;
+    /*The function is supposed to return a uint32_t so it returns 1 if successful*/
+    return 1;
 }
 
 /*********************************************************************************************/
@@ -112,7 +118,10 @@ This function is used to set the value of the unaligned memory trap bit in CCR t
 
 __attribute__ ((always_inline)) static inline uint32_t ARM32_CCR_enable_unaligned access_trap()
 {
-  return 1;
+  /*The below value sets the unaligned access trap in the CCR register direct de-ref*/
+    __CCR |= __CCR_UNALIGNED_ACCESS_TRAP_MASK;
+    /*The function is supposed to return a uint32_t so it returns 1 if successful*/
+    return 1;
 }
 
 /*********************************************************************************************/
@@ -128,7 +137,11 @@ This function is used to perform unaligned access so that is triggers the trap f
 
 __attribute__ ((always_inline)) static inline void ARM32_create_unaligned access_trap()
 {
-
+  /*create an 8-bit value that can be stored anywhere unaligned*/
+    uint8_t temp;
+  /*According to ARM support, casting this 8-bit value to 32 bit will cause unaligned access*/
+    uint32_t *unaligned = (uint32_t *)(&temp);
+  /*This will create a hard fault that doesn't return from a hard fault interrupt*/
 }
 
 /*********************************************************************************************/
@@ -145,7 +158,9 @@ This function should not return and should create a usage fault exception
 
 __attribute__ ((always_inline)) static inline void ARM32_create_divide_by_zero_trap()
 {
-
+  /*The line below is the code for the tigger of a divide by zero event*/
+    uint8_t divide_by_zero = (0x01/0);
+  /*This will create a hard fault that doesn't return from a hard fault hard fault*/
 }
 
 /*********************************************************************************************/
