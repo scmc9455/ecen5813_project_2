@@ -12,16 +12,16 @@
 #Compile time switch for the makefile
 ifeq ($(PLATFORM),KL25Z)
 SRCS = ./data1.c ./debug.c ./memory.c ./conversion.c \
-./project1.c ./arch_arm32.c ./main.c \
+./project1.c ./arch_arm32.c ./main.c ./gpio.c ./circbuf.c \
 ./system_MKL25Z4.c ./startup_MKL25Z4.S
 else ifeq ($(PLATFORM),BBB)
 SRCS = ./data1.c ./debug.c ./memory.c ./conversion.c \
-./project1.c ./main.c
+./project1.c ./main.c ./circbuf.c #(no gpio on BBB)
 else ifeq ($(PLATFORM),HOST)
 SRCS = ./data1.c ./debug.c ./memory.c ./conversion.c \
-./project1.c ./main.c
+./project1.c ./main.c ./gpio.c ./circbuf.c
 #if no platform is speced, make defaults to native compiler
 else
 SRCS = ./data1.c ./debug.c ./memory.c ./conversion.c \
-./project1.c ./main.c ./gpio.c
+./project1.c ./main.c ./gpio.c ./circbuf.c
 endif

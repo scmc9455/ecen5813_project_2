@@ -111,7 +111,7 @@ This function is used to set the value of the unaligned memory trap bit in CCR t
 @return - 1 if the function ran correctly
 **********************************************************************************************/
 
-static inline uint32_t ARM32_CCR_enable_unaligned access_trap() __attribute__ ((always_inline));
+static inline uint32_t ARM32_CCR_enable_unaligned_access_trap() __attribute__ ((always_inline));
 
 /*********************************************************************************************/
 /*********************ARM32_create_unaligned_access_trap**************************************/
@@ -124,7 +124,7 @@ This function is used to perform unaligned access so that is triggers the trap f
 @return - void
 **********************************************************************************************/
 
-static inline void ARM32_create_unaligned access_trap() __attribute__ ((always_inline));
+static inline void ARM32_create_unaligned_access_trap() __attribute__ ((always_inline));
 
 /*********************************************************************************************/
 /*********************ARM32_create_divide_by_zero_trap****************************************/

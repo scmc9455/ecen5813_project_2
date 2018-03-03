@@ -41,14 +41,40 @@ This function initializes a circular buffer with length and the pointer to the b
 The function returns error codes on success of failure
 The buffer allocates Head,Tail, and count
 
-@param - pointer type of the buffer
-@param - buffer length
+@param - **buf_ptr: pointer type of the buffer
+@param - length: buffer length
 @return - status of the buffer
 **********************************************************************************************/
 
-<CB enum type> CB_init(<pointer of buffer type>,<length of buffer>)
+CB_e CB_init(CB_t **buf_ptr, size_t length)
 {
-  return 0;
+    /*The function needs to be passed a pointer to a pointer so the address change be changed*/
+    /*outside of the function, so the malloc structure is given to the address*/
+    /*First check to see if the pointer is NULL*/
+    if (*buf_ptr == NULL)
+    {
+        /*The line below dynamically allocates the structure for the circular buffer*/
+        (*buf_ptr) = (CB_t *)malloc(sizeof(CB_t));
+    }
+
+    /*If the value is returned as NULL the init returns an Error*/
+    if((*buf_ptr) == NULL)
+    {
+        return CB_NULL_POINTER_ERROR;
+    }else{
+        /*Second the buffer itself needs to be setup*/
+        /*The line below dynamically allocates the structure for the circular buffer*/
+        *buf_ptr->base = (uint8_t *)malloc(sizeof(*buf_ptr)*length);
+    }
+   
+    /*These next lines then store the values into the structure*/
+    /*The head and tail are at the same location since nothing is in the buffer*/
+    *buf_ptr->head = *buf_ptr->base;
+    *buf_ptr->tail = *buf_ptr->base;
+    *buf_ptr->length = length;
+    *buf_ptr->count = 0;
+    /*returns SUCCESS if this point is reached*/
+    return CB_SUCCESS;
 }
 
 /*********************************************************************************************/
@@ -59,13 +85,30 @@ The buffer allocates Head,Tail, and count
 The function takes in a pointer of the buffer to be destroyed and deallocates the entire buffer
 including memory and pointers using FREE. The pointer of the buffer is set to NULL.
 
-@param - pointer type to the buffer
+@param - **buf_ptr pointer type to the buffer
 @return - status of the buffer
 **********************************************************************************************/
 
-<CB enum type> CB_destroy(<pointer of buffer type>)
+CB_e CB_destroy(CB_t **buf_ptr)
 {
-  return 0;
+    /*This function cannot be performed if the pointer address is NULL*/
+    /*So check to see if the value is NULL*/
+    if((*buf_ptr) == NULL)
+    {
+        return CB_NULL_POINTER_ERROR;
+    }
+
+    /*Next the buffer base memory needs to be free (reverse oreder of init)*/
+    free((void *)*buf_ptr->base); /*(casted to void to so any type of data is freed)*/
+    /*Null the hanging pointer*/
+    (*buf_ptr)->base = NULL;
+
+    /*Next the buffer struture needs to be free (reverse oreder of init)*/
+    free((void *)(*buf_ptr)); /*(casted to void to so any type of data is freed)*/
+    /*Null the hanging pointer*/
+    (*buf_ptr) = NULL;
+
+    return CB_SUCCESS;
 }
 
 /*********************************************************************************************/
@@ -76,14 +119,42 @@ including memory and pointers using FREE. The pointer of the buffer is set to NU
 The function takes in a pointer to the buffer, and data to be added.
 The function returns the success or failure of the buffer function.
 
-@param - pointer to the buffer
-@param - data to add to the buffer
+@param - buf_ptr: pointer to the buffer
+@param - data: data to add to the buffer
 @return - status of the buffer
 **********************************************************************************************/
 
-<CB enum type> CB_buffer_add_item(<buffer to add to>,<data to add>)
+CB_e CB_buffer_add_item(CB_t *buf_ptr, uint8_t data)
 {
-  return 0;
+    /*First checks that structure and buffer has valid pointers*/
+    if((buf_ptr==NULL)||(buf_ptr->base==NULL)||(buf_ptr->head==NULL)||(buf_ptr->tail==NULL))
+    {
+        return CB_NULL_POINTER_ERROR;
+    }
+
+    /*Check to see if the buffer is full before an item is added*/
+    if((buf_ptr->count)==(buf_ptr->length))
+    {
+        return CB_BUFFER_FULL;
+    }
+
+    /*check to see if the head is at the end of the buffer*/
+    if((buf_ptr->head) == (buf_ptr->base + (buf_ptr->length -1)))
+    {
+        /*if the head is at the end, it goes back to the base*/
+        (buf_ptr)->head == (buf_ptr)->base; /*this wraps arounds to the beginning*/
+    }else{
+        /*the buffer head is increased to one*/
+        (buf_ptr)->head++;
+    }
+    
+    /*the data gets stored into the position of the buffer*/
+    (*buf_ptr)->head = data;
+
+    /*increment the count of the buffer structure*/
+    buf_ptr->count++;
+
+    return CB_SUCCESS;
 }
 
 /*********************************************************************************************/
@@ -94,14 +165,48 @@ The function returns the success or failure of the buffer function.
 The function takes in a pointer to the buffer, and variable to store/remove item from the bufer
 The function returns the success or failure of the buffer function.
 
-@param - pointer type of the buffer
-@param - variable to store the removed data
+@param - *buf_ptr: pointer type of the buffer
+@param - *data: variable to store the removed data
 @return - status of the buffer
 **********************************************************************************************/
 
-<CB enum type> CB_buffer_remove_item(<buffer to remove from>,<variable to store data removed>)
+CB_e CB_buffer_remove_item(CB_t *buf_ptr,uint8_t *data)
 {
-  return 0;
+    /*First checks that structure and buffer has valid pointers*/
+    if((buf_ptr==NULL)||(buf_ptr->base==NULL)||(buf_ptr->head==NULL)||(buf_ptr->tail==NULL))
+    {
+        return CB_NULL_POINTER_ERROR;
+    }
+    
+    /*Also checks the storeage variable pointer*/
+    if(data == NULL)
+    {
+        return CB_NULL_POINTER_ERROR;
+    }
+
+    /*Check to see if the buffer is empty before an item is added*/
+    if(((buf_ptr->count)== 0)))
+    {
+        return CB_BUFFER_EMPTY;       
+    }
+
+    /*Store the oldest item in the buffer into the data variable*/
+    *data = *buf_ptr->tail;
+    
+    /*check to see if the tail is at the beginning of the buffer*/
+    if((buf_ptr->tail) == (buf_ptr->base))
+    {
+        /*if the tail is at the beginning, it goes back to the end*/
+        /*this wraps arounds to the end*/
+        (buf_ptr)->tail == ((buf_ptr)->base + ((buf_ptr)->length -1)); 
+    }else{
+        /*the buffer tail is decreased by one*/
+        (buf_ptr)->tail--;
+    }
+  
+    buf_ptr->count--;
+
+    return CB_SUCCESS;
 }
 
 /*********************************************************************************************/
@@ -111,13 +216,24 @@ The function returns the success or failure of the buffer function.
 
 The function takes in a pointer to the buffer, and checks to see if the buffer is full.
 
-@param - pointer type of the buffer
-@return - Full or Not Full (1 or 0)
+@param - *buf_ptr: pointer type of the buffer
+@return - Full or Not Full
 **********************************************************************************************/
 
-__attribute__ ((always_inline)) static inline <CB enum type> CB_is_full(<buffer to check>)
+__attribute__ ((always_inline)) static inline CB_e CB_is_full(CB_t *buf_ptr)
 {
-  return 0;
+    /*First checks that structure and buffer has valid pointers*/
+    if((buf_ptr==NULL)||(buf_ptr->base==NULL)||(buf_ptr->head==NULL)||(buf_ptr->tail==NULL))
+    {
+        return CB_NULL_POINTER_ERROR;
+    }
+
+    if(((buf_ptr)->count == length)||((buf_ptr)->head == ((buf_ptr)->tail -1)))
+    {
+        return CB_BUFFER_FULL;
+    }else{    
+        return CB_BUFFER_NOT_FULL;
+    }
 }
 
 /*********************************************************************************************/
@@ -127,13 +243,24 @@ __attribute__ ((always_inline)) static inline <CB enum type> CB_is_full(<buffer 
 
 The function takes in a pointer to the buffer, and checks to see if the buffer is empty.
 
-@param - pointer type of the buffer
-@return - Empty or Not Empty (1 or 0)
+@param - *buf_ptr: pointer type of the buffer
+@return - Empty or Not Empty
 **********************************************************************************************/
 
-__attribute__ ((always_inline)) static inline <CB enum type> CB_is_empty(<buffer to check>)
+__attribute__ ((always_inline)) static inline CB_e CB_is_empty(CB_t *buf_ptr)
 {
-  return 0;
+    /*First checks that structure and buffer has valid pointers*/
+    if((buf_ptr==NULL)||(buf_ptr->base==NULL)||(buf_ptr->head==NULL)||(buf_ptr->tail==NULL))
+    {
+        return CB_NULL_POINTER_ERROR;
+    }
+
+    if(((buf_ptr)->count == 0)||((buf_ptr)->head == ((buf_ptr)->tail)))
+    {
+        return CB_BUFFER_EMPTY;
+    }else{    
+        return CB_BUFFER_NOT_EMPTY;
+    }
 }
 
 /*********************************************************************************************/
@@ -143,15 +270,38 @@ __attribute__ ((always_inline)) static inline <CB enum type> CB_is_empty(<buffer
 
 The function takes in a pointer to the buffer, and checks to see if the buffer is empty.
 
-@param - pointer type of the buffer
-@param - position from the head of the buffer to peek
-@param - pointer to hold the data peeked at
+@param - *buf_ptr: pointer type of the buffer
+@param - position: position from the head of the buffer to peek
+@param - *data: pointer to hold the data peeked at
 @return - Status of the operation
 **********************************************************************************************/
 
-<CB enum type> CB_peek(<buffer to peek into>,<position to peek>,<holder for the peeked value>)
+CB_e CB_peek(CB_t *buf_ptr, uint8_t position, uint8_t *data)
 {
-  return 0;
+    /*First checks that structure and buffer has valid pointers*/
+    if((buf_ptr==NULL)||(buf_ptr->base==NULL)||(buf_ptr->head==NULL)||(buf_ptr->tail==NULL))
+    {
+        return CB_NULL_POINTER_ERROR;
+    }
+
+    /*Also checks the storeage variable pointer*/
+    if(data == NULL)
+    {
+        return CB_NULL_POINTER_ERROR;
+    }
+
+    if(((buf_ptr)->head - (buf_ptr)->base) >= position)
+    {
+        /*Puts the value of the peeked value from the pointer into the data location*/    
+        *data = *((buf_ptr)->head - position);
+    }else{
+        /*decreased the position from the base to account for the wrap around*/
+        position -= ((buf_ptr)->head - (buf_ptr)->base);
+        /*stores the value from the end of the buffer into data*/
+        *data = (((buf_ptr)->base + (uint8_t *)(buf_ptr)->length) - position);
+    }
+
+    return CB_SUCCESS;
 }
 
 /*********************************************************************************************/

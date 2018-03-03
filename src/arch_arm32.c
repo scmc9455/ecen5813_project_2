@@ -37,15 +37,9 @@ This is meant to be an inline function.
 
 __attribute__ ((always_inline)) static inline uint32_t ARM32_AIRCR_get_endianness_setting()
 {
-
-    uint32_t endian_var;
-    uint32_t *aircr_ptr = (uint32_t *)(__AIRCR);
-
-    endian_var = *aircr_ptr && __AIRCR_ENDIANNESS_MASK; 
-    /*Set endain_var to only have one bit*/
-    endian_var = endian_var >> __AIRCR_ENDIANNESS_OFFSET; /* shift bit down to the LSb */
-
-    return (endian_var);
+  /*The below statement will return the value of the endian value*/
+  /*and will shift down by the offset to return the value*/
+    return (((__AIRCR) & (__AIRCR_ENDIANNESS_MASK)) >> __AIRCR_ENDIANNESS_OFFSET);
 }	
 
 /*********************************************************************************************/
@@ -116,7 +110,7 @@ This function is used to set the value of the unaligned memory trap bit in CCR t
 @return - 1 if the function ran correctly
 **********************************************************************************************/
 
-__attribute__ ((always_inline)) static inline uint32_t ARM32_CCR_enable_unaligned access_trap()
+__attribute__ ((always_inline)) static inline uint32_t ARM32_CCR_enable_unaligned_access_trap()
 {
   /*The below value sets the unaligned access trap in the CCR register direct de-ref*/
     __CCR |= __CCR_UNALIGNED_ACCESS_TRAP_MASK;
@@ -135,7 +129,7 @@ This function is used to perform unaligned access so that is triggers the trap f
 @return - void
 **********************************************************************************************/
 
-__attribute__ ((always_inline)) static inline void ARM32_create_unaligned access_trap()
+__attribute__ ((always_inline)) static inline void ARM32_create_unaligned_access_trap()
 {
   /*create an 8-bit value that can be stored anywhere unaligned*/
     uint8_t temp;
@@ -165,4 +159,4 @@ __attribute__ ((always_inline)) static inline void ARM32_create_divide_by_zero_t
 
 /*********************************************************************************************/
 /**************************************End of File********************************************/
-/**********************************************************************************************
+/*********************************************************************************************/

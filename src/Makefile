@@ -15,7 +15,6 @@ include sources.mk
 GENFLAGS:= -Wall -Werror -g -O0 -std=c99
 LDFLAGS:= -Wl,-Map=main.map
 OBJS:= $(SRCS:.c=.o)
-#DEPS:= $(SRCS:.c=.dep)
 PREPRO:= $(SRCS:.c=.i)
 ASM:= $(SRCS:.c=.s)
 TARGET:= project1.elf
@@ -111,6 +110,13 @@ main.s:main.c
 arch_arm32.s:arch_arm32.c
 	$(CC) $(CFLAGS) $(INCLUDES) arch_arm32.c -S -o arch_arm32.s
 
+gpio.s:gpio.c
+	$(CC) $(CFLAGS) $(INCLUDES) gpio.c -S -o gpio.s
+
+circbuf.s:circbuf.c
+	$(CC) $(CFLAGS) $(INCLUDES) circbuf.c -S -o circbuf.s
+
+
 #******This section will generate the preprocessed files*****************
 memory.i:memory.c
 	$(CC) $(CFLAGS) $(INCLUDES)  memory.c -E -o memory.i
@@ -132,6 +138,13 @@ main.i:main.c
 
 arch_arm32.i:arch_arm32.c
 	$(CC) $(CFLAGS) $(INCLUDES) arch_arm32.c -E -o arch_arm32.i 
+
+gpio.i:gpio.c
+	$(CC) $(CFLAGS) $(INCLUDES) gpio.c -E -o gpio.i
+
+circbuf.i:circbuf.c
+	$(CC) $(CFLAGS) $(INCLUDES) circbuf.c -E -o circbuf.i
+
 
 #**********Command "make compile-all"*************************************
 .PHONY: compile-all
@@ -166,6 +179,9 @@ startup_MKL25Z4.o:startup_MKL25Z4.S
 
 gpio.o:gpio.c
 	$(CC) $(CFLAGS) $(INCLUDES) gpio.c -c -o gpio.o
+
+circbuf.o:circbuf.c
+	$(CC) $(CFLAGS) $(INCLUDES) circbuf.c -c -o circbuf.o
 
 #**************************End of File************************************
 #************************************************************************

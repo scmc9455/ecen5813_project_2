@@ -38,20 +38,24 @@ Created for ECEN5813
 #define START_CRITICAL() /*Defines enable function of interrupts*/
 #define END_CRITICAL()   /*Defines disable function of interrupts*/
 
+#define __IO    (volatile)
+
 typedef struct {
-  Base Memory Pointer
-  Head
-  Tail
-  Length/Size
-  Count
+  __IO uint8_t *base; /*allocated size of memory*/
+  __IO uint8_t *head; /*pointer to the newest item in the buffer*/
+  __IO uint8_t *tail; /*pointer to the oldest item in the buffer*/
+  __IO size_t Length; /*set dynamically and is the number of items allocated*/
+  __IO size_t Count;  /*current number of items in the buffer*/
 }CB_t;
 
 typedef enum {
-  Success/No Error
-  Circular Buffer Null Pointer Errors
-  No Length Error
-  Buffer Full Error
-  Buffer Empty Error
+  CB_SUCCESS            =0,
+  CB_NULL_POINTER_ERROR =1,
+  CB_NO_LENGTH_ERROR    =2,
+  CB_BUFFER_FULL        =3,
+  CB_BUFFER_NOT_FULL    =4,
+  CB_BUFFER_EMPTY       =5,
+  CB_BUFFER_NOT_EMPTY   =6,
 } CB_e;
 
 /*********************************************************************************************/
@@ -63,12 +67,12 @@ This function initializes a circular buffer with length and the pointer to the b
 The function returns error codes on success of failure
 The buffer allocates Head,Tail, and count
 
-@param - pointer type of the buffer
-@param - buffer length
+@param - **buf_ptr: pointer type of the buffer
+@param - length: buffer length
 @return - status of the buffer
 **********************************************************************************************/
 
-<CB enum type> CB_init(<pointer of buffer type>,<length of buffer>);
+CB_e CB_init(CB_t **buf_ptr,size_t length);
 
 /*********************************************************************************************/
 /***********************************CB_Destroy************************************************/
@@ -78,11 +82,11 @@ The buffer allocates Head,Tail, and count
 The function takes in a pointer of the buffer to be destroyed and deallocates the entire buffer
 including memory and pointers using FREE. The pointer of the buffer is set to NULL.
 
-@param - pointer type to the buffer
+@param - **buf_ptr: pointer type to the buffer
 @return - status of the buffer
 **********************************************************************************************/
 
-<CB enum type> CB_destroy(<pointer of buffer type>);
+CB_e CB_destroy(**buf_ptr);
 
 /*********************************************************************************************/
 /******************************CB_buffer_add_item*********************************************/
@@ -92,12 +96,12 @@ including memory and pointers using FREE. The pointer of the buffer is set to NU
 The function takes in a pointer to the buffer, and data to be added.
 The function returns the success or failure of the buffer function.
 
-@param - pointer to the buffer
-@param - data to add to the buffer
+@param - buf_ptr: pointer to the buffer
+@param - data: data to add to the buffer
 @return - status of the buffer
 **********************************************************************************************/
 
-<CB enum type> CB_buffer_add_item(<buffer to add to>,<data to add>);
+CB_e CB_buffer_add_item(CB_t *buf_ptr, uint8_t data);
 
 /*********************************************************************************************/
 /******************************CB_buffer_remove_item******************************************/
@@ -107,12 +111,12 @@ The function returns the success or failure of the buffer function.
 The function takes in a pointer to the buffer, and variable to store/remove item from the bufer
 The function returns the success or failure of the buffer function.
 
-@param - pointer type of the buffer
-@param - variable to store the removed data
+@param - *buf_ptr: pointer type of the buffer
+@param - *data: variable to store the removed data
 @return - status of the buffer
 **********************************************************************************************/
 
-<CB enum type> CB_buffer_remove_item(<buffer to remove from>,<variable to store data removed>);
+CB_e CB_buffer_remove_item(CB_t *buf_ptr, uint8_t *data);
 
 /*********************************************************************************************/
 /************************************CB_is_full***********************************************/
@@ -121,11 +125,11 @@ The function returns the success or failure of the buffer function.
 
 The function takes in a pointer to the buffer, and checks to see if the buffer is full.
 
-@param - pointer type of the buffer
+@param - *buf_ptr: pointer type of the buffer
 @return - Full or Not Full (1 or 0)
 **********************************************************************************************/
 
-static inline <CB enum type> CB_is_full(<buffer to check>) __attribute__ ((always_inline));
+static inline <CB enum type> CB_is_full(CB_t *buf_ptr) __attribute__ ((always_inline));
 
 /*********************************************************************************************/
 /************************************CB_is_empty**********************************************/
@@ -134,11 +138,11 @@ static inline <CB enum type> CB_is_full(<buffer to check>) __attribute__ ((alway
 
 The function takes in a pointer to the buffer, and checks to see if the buffer is empty.
 
-@param - pointer type of the buffer
+@param - *buf_ptr: pointer type of the buffer
 @return - Empty or Not Empty (1 or 0)
 **********************************************************************************************/
 
-static inline <CB enum type> CB_is_empty(<buffer to check>) __attribute__ ((always_inline));
+static inline <CB enum type> CB_is_empty(CB_t *buf_ptr) __attribute__ ((always_inline));
 
 /*********************************************************************************************/
 /****************************************CB_peek**********************************************/
@@ -147,13 +151,13 @@ static inline <CB enum type> CB_is_empty(<buffer to check>) __attribute__ ((alwa
 
 The function takes in a pointer to the buffer, and checks to see if the buffer is empty.
 
-@param - pointer type of the buffer
-@param - position from the head of the buffer to peek
-@param - pointer to hold the data peeked at
+@param - *buf_ptr: pointer type of the buffer
+@param - position: position from the head of the buffer to peek
+@param - *data: pointer to hold the data peeked at
 @return - Status of the operation
 **********************************************************************************************/
 
-<CB enum type> CB_peek(<buffer to peek into>,<position to peek>,<holder for the peeked value>);
+<CB enum type> CB_peek(CB_t *buf_ptr, uint8_t position, uint8_t *data);
 
 
 #endif /*__CIRCBUF_H__*/
