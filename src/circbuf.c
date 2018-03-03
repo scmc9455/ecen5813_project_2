@@ -64,15 +64,15 @@ CB_e CB_init(CB_t **buf_ptr, size_t length)
     }else{
         /*Second the buffer itself needs to be setup*/
         /*The line below dynamically allocates the structure for the circular buffer*/
-        *buf_ptr->base = (uint8_t *)malloc(sizeof(*buf_ptr)*length);
+        (*buf_ptr)->base = (uint8_t *)malloc(sizeof(*buf_ptr)*length);
     }
    
     /*These next lines then store the values into the structure*/
     /*The head and tail are at the same location since nothing is in the buffer*/
-    *buf_ptr->head = *buf_ptr->base;
-    *buf_ptr->tail = *buf_ptr->base;
-    *buf_ptr->length = length;
-    *buf_ptr->count = 0;
+    (*buf_ptr)->head = (*buf_ptr)->base;
+    (*buf_ptr)->tail = (*buf_ptr)->base;
+    (*buf_ptr)->length = length;
+    (*buf_ptr)->count = 0;
     /*returns SUCCESS if this point is reached*/
     return CB_SUCCESS;
 }
@@ -99,7 +99,7 @@ CB_e CB_destroy(CB_t **buf_ptr)
     }
 
     /*Next the buffer base memory needs to be free (reverse oreder of init)*/
-    free((void *)*buf_ptr->base); /*(casted to void to so any type of data is freed)*/
+    free((void *)(*buf_ptr)->base); /*(casted to void to so any type of data is freed)*/
     /*Null the hanging pointer*/
     (*buf_ptr)->base = NULL;
 
@@ -149,7 +149,7 @@ CB_e CB_buffer_add_item(CB_t *buf_ptr, uint8_t data)
     }
     
     /*the data gets stored into the position of the buffer*/
-    (*buf_ptr)->head = data;
+    *buf_ptr->head = data;
 
     /*increment the count of the buffer structure*/
     buf_ptr->count++;
@@ -185,7 +185,7 @@ CB_e CB_buffer_remove_item(CB_t *buf_ptr,uint8_t *data)
     }
 
     /*Check to see if the buffer is empty before an item is added*/
-    if(((buf_ptr->count)== 0)))
+    if(((buf_ptr->count)== 0))
     {
         return CB_BUFFER_EMPTY;       
     }
@@ -228,7 +228,7 @@ __attribute__ ((always_inline)) static inline CB_e CB_is_full(CB_t *buf_ptr)
         return CB_NULL_POINTER_ERROR;
     }
 
-    if(((buf_ptr)->count == length)||((buf_ptr)->head == ((buf_ptr)->tail -1)))
+    if(((buf_ptr)->count == (buf_ptr)->length)||((buf_ptr)->head == ((buf_ptr)->tail -1)))
     {
         return CB_BUFFER_FULL;
     }else{    
@@ -298,7 +298,7 @@ CB_e CB_peek(CB_t *buf_ptr, uint8_t position, uint8_t *data)
         /*decreased the position from the base to account for the wrap around*/
         position -= ((buf_ptr)->head - (buf_ptr)->base);
         /*stores the value from the end of the buffer into data*/
-        *data = (((buf_ptr)->base + (uint8_t *)(buf_ptr)->length) - position);
+        *data = (*buf_ptr->base + (buf_ptr->length - position));
     }
 
     return CB_SUCCESS;

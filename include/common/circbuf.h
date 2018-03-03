@@ -38,14 +38,12 @@ Created for ECEN5813
 #define START_CRITICAL() /*Defines enable function of interrupts*/
 #define END_CRITICAL()   /*Defines disable function of interrupts*/
 
-#define __IO    (volatile)
-
 typedef struct {
-  __IO uint8_t *base; /*allocated size of memory*/
-  __IO uint8_t *head; /*pointer to the newest item in the buffer*/
-  __IO uint8_t *tail; /*pointer to the oldest item in the buffer*/
-  __IO size_t Length; /*set dynamically and is the number of items allocated*/
-  __IO size_t Count;  /*current number of items in the buffer*/
+  volatile uint8_t *base; /*allocated size of memory*/
+  volatile uint8_t *head; /*pointer to the newest item in the buffer*/
+  volatile uint8_t *tail; /*pointer to the oldest item in the buffer*/
+  volatile size_t length; /*set dynamically and is the number of items allocated*/
+  volatile size_t count;  /*current number of items in the buffer*/
 }CB_t;
 
 typedef enum {
@@ -86,7 +84,7 @@ including memory and pointers using FREE. The pointer of the buffer is set to NU
 @return - status of the buffer
 **********************************************************************************************/
 
-CB_e CB_destroy(**buf_ptr);
+CB_e CB_destroy(CB_t **buf_ptr);
 
 /*********************************************************************************************/
 /******************************CB_buffer_add_item*********************************************/
@@ -129,7 +127,7 @@ The function takes in a pointer to the buffer, and checks to see if the buffer i
 @return - Full or Not Full (1 or 0)
 **********************************************************************************************/
 
-static inline <CB enum type> CB_is_full(CB_t *buf_ptr) __attribute__ ((always_inline));
+static inline CB_e CB_is_full(CB_t *buf_ptr) __attribute__ ((always_inline));
 
 /*********************************************************************************************/
 /************************************CB_is_empty**********************************************/
@@ -142,7 +140,7 @@ The function takes in a pointer to the buffer, and checks to see if the buffer i
 @return - Empty or Not Empty (1 or 0)
 **********************************************************************************************/
 
-static inline <CB enum type> CB_is_empty(CB_t *buf_ptr) __attribute__ ((always_inline));
+static inline CB_e CB_is_empty(CB_t *buf_ptr) __attribute__ ((always_inline));
 
 /*********************************************************************************************/
 /****************************************CB_peek**********************************************/
@@ -157,7 +155,7 @@ The function takes in a pointer to the buffer, and checks to see if the buffer i
 @return - Status of the operation
 **********************************************************************************************/
 
-<CB enum type> CB_peek(CB_t *buf_ptr, uint8_t position, uint8_t *data);
+CB_e CB_peek(CB_t *buf_ptr, uint8_t position, uint8_t *data);
 
 
 #endif /*__CIRCBUF_H__*/
