@@ -42,7 +42,7 @@ Blue LED is PORTD-Pin1 initial state off
 __attribute__ ((always_inline)) static inline void GPIO_Configure()
 {
     /*Turn the clock on for the portB and portD modules*/
-    SIM_SCGC5 |= (SIM_SCGC5_PORTB + SIM_SCGC5_PORTD)
+    SIM_SCGC5 |= (SIM_SCGC5_PORTB + SIM_SCGC5_PORTD);
 
     PORTB_PCR18 |= ALT1; /*Sets the portB_pin18 to be gpio*/
     PORTB_PCR19 |= ALT1; /*Sets the portB_pin19 to be gpio*/

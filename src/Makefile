@@ -5,7 +5,7 @@
 #
 #@author - Scott McElroy
 #
-#@data - February 11, 2018
+#@data - March 4, 2018
 #
 #**************************************************************************#
 
@@ -52,7 +52,8 @@ else
 CC= gcc
 CFLAG = $(GENFLAGS) -DVERBOSE
 CPPFLAGS = -DHOST
-INCLUDES:= -I./../include/common
+INCLUDES:= -I./../include/common \
+-I./../include/CMSIS
 
 endif	
 
@@ -116,6 +117,8 @@ gpio.s:gpio.c
 circbuf.s:circbuf.c
 	$(CC) $(CFLAGS) $(INCLUDES) circbuf.c -S -o circbuf.s
 
+uart.s:uart.c
+	$(CC) $(CFLAGS) $(INCLUDES) uart.c -S -o uart.s
 
 #******This section will generate the preprocessed files*****************
 memory.i:memory.c
@@ -145,6 +148,8 @@ gpio.i:gpio.c
 circbuf.i:circbuf.c
 	$(CC) $(CFLAGS) $(INCLUDES) circbuf.c -E -o circbuf.i
 
+uart.i:uart.c
+	$(CC) $(CFLAGS) $(INCLUDES) uart.c -E -o uart.i
 
 #**********Command "make compile-all"*************************************
 .PHONY: compile-all
@@ -182,6 +187,9 @@ gpio.o:gpio.c
 
 circbuf.o:circbuf.c
 	$(CC) $(CFLAGS) $(INCLUDES) circbuf.c -c -o circbuf.o
+
+uart.o:uart.c
+	$(CC) $(CFLAGS) $(INCLUDES) uart.c -c -o uart.o
 
 #**************************End of File************************************
 #************************************************************************

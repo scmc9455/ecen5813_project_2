@@ -25,7 +25,7 @@ This file is the source for the circular buffer functions
 
 @author - Scott McElroy
 
-@date - February 25, 2018
+@date - March 3, 2018
 
 Created for ECEN5813
 **********************************************************************************************/
@@ -142,7 +142,7 @@ CB_e CB_buffer_add_item(CB_t *buf_ptr, uint8_t data)
     if((buf_ptr->head) == (buf_ptr->base + (buf_ptr->length -1)))
     {
         /*if the head is at the end, it goes back to the base*/
-        (buf_ptr)->head == (buf_ptr)->base; /*this wraps arounds to the beginning*/
+        (buf_ptr)->head = (buf_ptr)->base; /*this wraps arounds to the beginning*/
     }else{
         /*the buffer head is increased to one*/
         (buf_ptr)->head++;
@@ -198,7 +198,7 @@ CB_e CB_buffer_remove_item(CB_t *buf_ptr,uint8_t *data)
     {
         /*if the tail is at the beginning, it goes back to the end*/
         /*this wraps arounds to the end*/
-        (buf_ptr)->tail == ((buf_ptr)->base + ((buf_ptr)->length -1)); 
+        (buf_ptr)->tail = ((buf_ptr)->base + ((buf_ptr)->length -1)); 
     }else{
         /*the buffer tail is decreased by one*/
         (buf_ptr)->tail--;

@@ -140,6 +140,7 @@ This function should not return and should create a usage fault exception
 
 static inline void ARM32_create_divide_by_zero_trap() __attribute__ ((always_inline));
 
+
 #endif /*_ARCH_ARM32_*/
 
 /*********************************************************************************************/

@@ -25,7 +25,7 @@ This file is the source for the circular buffer functions
 
 @author - Scott McElroy
 
-@date - February 25, 2018
+@date - March 3, 2018
 
 Created for ECEN5813
 **********************************************************************************************/
@@ -35,8 +35,11 @@ Created for ECEN5813
 #include <stdint.h>
 #include <stdlib.h>
 
-#define START_CRITICAL() /*Defines enable function of interrupts*/
-#define END_CRITICAL()   /*Defines disable function of interrupts*/
+#define IRQn (...) /*IRQ number to enable and disable*/
+/*Defines enable function of interrupts of the CMSIS library*/
+#define START_CRITICAL(IRQn)  (NVIC_EnableIRQ(IRQn_Type IRQn))
+/*Defines disable function of interrupts of the CMSIS library*/
+#define END_CRITICAL(IRQn)    (NVIC_DisableIRQ(IRQn_Type IRQn)) 
 
 typedef struct {
   volatile uint8_t *base; /*allocated size of memory*/
@@ -53,7 +56,7 @@ typedef enum {
   CB_BUFFER_FULL        =3,
   CB_BUFFER_NOT_FULL    =4,
   CB_BUFFER_EMPTY       =5,
-  CB_BUFFER_NOT_EMPTY   =6,
+  CB_BUFFER_NOT_EMPTY   =6
 } CB_e;
 
 /*********************************************************************************************/

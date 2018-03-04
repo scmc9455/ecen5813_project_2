@@ -43,7 +43,7 @@ Created for ECEN5813
 /*direct dereferencing to PORTD PTD1 crtl*/
 #define PORTD_PCR1         (*((volatile uint32_t *)(0x4004C004)))
 /*Value specified for the PCR functions*/
-#define ALT1               (0x001 << 8) 
+#define ALT1               (0b001 << 8) 
 
 /*direct dereferencing to GPIOB direction crtl register*/
 #define GPIOB_PDDR         (*((volatile uint32_t *)(0x400FF054))) 

@@ -131,10 +131,14 @@ This function is used to perform unaligned access so that is triggers the trap f
 
 __attribute__ ((always_inline)) static inline void ARM32_create_unaligned_access_trap()
 {
-  /*create an 8-bit value that can be stored anywhere unaligned*/
+   #if defined (__GNUC__)
+   #pragma GCC diagnostic ignored "-Wunused-but-set-variable"
+   #endif
+   /*create an 8-bit value that can be stored anywhere unaligned*/
     uint8_t temp;
   /*According to ARM support, casting this 8-bit value to 32 bit will cause unaligned access*/
     uint32_t *unaligned = (uint32_t *)(&temp);
+    unaligned = 0;
   /*This will create a hard fault that doesn't return from a hard fault interrupt*/
 }
 
@@ -153,9 +157,13 @@ This function should not return and should create a usage fault exception
 __attribute__ ((always_inline)) static inline void ARM32_create_divide_by_zero_trap()
 {
   /*The line below is the code for the tigger of a divide by zero event*/
-    uint8_t divide_by_zero = (0x01/0);
+  /*CODE WILL NOT RUN ON KL25Z*/
+  /*  uint8_t divide_by_zero = (0x01/0);*/
   /*This will create a hard fault that doesn't return from a hard fault hard fault*/
+
+  return;
 }
+
 
 /*********************************************************************************************/
 /**************************************End of File********************************************/
