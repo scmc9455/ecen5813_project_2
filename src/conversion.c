@@ -41,7 +41,7 @@ uint8_t my_itoa(int32_t data, uint8_t * ptr, uint32_t base)
     /* if pointer were not properly passed then the function returns a NULL */
     if(! ptr)
     {
-        return 0;  
+        return NULL;  
     }
     /* create a dummy pointer store data and see what comes back from it. 
        Will determine endianness */
@@ -127,7 +127,7 @@ int32_t my_atoi(uint8_t *ptr, uint8_t digits, uint32_t base)
     /* if pointer were not properly passed then the function returns a NULL */
     if( !ptr )
     {
-        return 0;  
+        return NULL;  
     }
 
     uint16_t temp = 0x8001; /*Temporary 16-bit value to be stored to reference */

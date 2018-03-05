@@ -14,11 +14,6 @@ include sources.mk
 #***********Variables******
 GENFLAGS:= -Wall -Werror -g -O0 -std=c99
 LDFLAGS:= -Wl,-Map=main.map
-OBJS:= $(SRCS:.c=.o)
-PREPRO:= $(SRCS:.c=.i)
-ASM:= $(SRCS:.c=.s)
-TARGET:= project1.elf
-DEPFLAGS = #-MT -$@ -MMD -MP -MF $*.dep
 
 #SRC defined in sources.mk
 #Includes defined in source.mk file
@@ -47,6 +42,16 @@ CFLAGS = $(GENFLAGS) -DVERBOSE
 INCLUDES:= -I./../include/common \
 -I./../include/CMSIS
 
+#added a make line to do unit testing
+else ifeq ($(PLATFORM),CMOCKA)
+CC = gcc
+CFLAGS = $(GENFLAGS) -DVERBOSE 
+INCLUDES:= -I./../include/common \
+-I./../include/CMSIS
+SRC -= ./main
+SRC += ./unit_tests.c
+
+
 #this will default to the native compiler
 else 
 CC= gcc
@@ -56,6 +61,14 @@ INCLUDES:= -I./../include/common \
 -I./../include/CMSIS
 
 endif	
+
+#variables that are needed for the build
+OBJS:= $(SRCS:.c=.o)
+PREPRO:= $(SRCS:.c=.i)
+ASM:= $(SRCS:.c=.s)
+TARGET:= project1.elf
+DEPFLAGS = #-MT -$@ -MMD -MP -MF $*.dep
+
 
 #******************************************************************************
 #**********Command "make build"*******************************************
@@ -120,6 +133,9 @@ circbuf.s:circbuf.c
 uart.s:uart.c
 	$(CC) $(CFLAGS) $(INCLUDES) uart.c -S -o uart.s
 
+unit_tests.s:unit_tests.c
+	$(CC) $(CFLAGS) $(INCLUDES) unit_test.c -S -o unit_tests.s
+
 #******This section will generate the preprocessed files*****************
 memory.i:memory.c
 	$(CC) $(CFLAGS) $(INCLUDES)  memory.c -E -o memory.i
@@ -150,6 +166,9 @@ circbuf.i:circbuf.c
 
 uart.i:uart.c
 	$(CC) $(CFLAGS) $(INCLUDES) uart.c -E -o uart.i
+
+unit_tests.i:unit_tests.c
+	$(CC) $(CFLAGS) $(INCLUDES) unit_test.c -E -o unit_tests.i
 
 #**********Command "make compile-all"*************************************
 .PHONY: compile-all
@@ -190,6 +209,9 @@ circbuf.o:circbuf.c
 
 uart.o:uart.c
 	$(CC) $(CFLAGS) $(INCLUDES) uart.c -c -o uart.o
+
+unit_tests.o:unit_tests.c
+	$(CC) $(CFLAGS) $(INCLUDES) unit_test.c -c -o unit_tests.o
 
 #**************************End of File************************************
 #************************************************************************

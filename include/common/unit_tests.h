@@ -32,6 +32,7 @@ Created for ECEN5813
 #include "memory.h"
 #include "conversion.h"
 #include "debug.h"
+#include "data1.c"
 
 #include "project2.h"
 #include "uart.h"
@@ -39,8 +40,8 @@ Created for ECEN5813
 #include "gpio.h"
 
 typedef enum{
-  TEST_PASS =0,
-  TEST_FAIL =1
+  TEST_PASS   =0,
+  TEST_FAILED =1
 }test_type_e;
 
 /*********************************************************************************************/
