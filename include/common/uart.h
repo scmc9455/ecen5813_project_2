@@ -106,6 +106,10 @@ typedef enum{
 #define disable_NVIC_IRQ(x) (1 << ((uint32_t)(x) & 0x1F))
 #define enable_NVIC_IRQ(x)  (1 << ((uint32_t)(x) & 0x1F))
 
+/*Define the Macros to turn on and off the global interrupts*/
+#define START_CRITICAL(x)  (enable_NVIC_IRQ(x))
+#define END_CRITICAL(x)    (disable_NVIC_IRQ(x)) 
+
 /*********************************************************************************************/
 /***********************************UART_Configure********************************************/
 /**********************************************************************************************

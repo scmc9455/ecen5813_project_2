@@ -35,12 +35,6 @@ Created for ECEN5813
 #include <stdint.h>
 #include <stdlib.h>
 
-#define IRQn (...) /*IRQ number to enable and disable*/
-/*Defines enable function of interrupts of the CMSIS library*/
-#define START_CRITICAL(IRQn)  (NVIC_EnableIRQ(IRQn_Type IRQn))
-/*Defines disable function of interrupts of the CMSIS library*/
-#define END_CRITICAL(IRQn)    (NVIC_DisableIRQ(IRQn_Type IRQn)) 
-
 typedef struct {
   volatile uint8_t *base; /*allocated size of memory*/
   volatile uint8_t *head; /*pointer to the newest item in the buffer*/
