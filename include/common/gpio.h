@@ -27,7 +27,10 @@ Created for ECEN5813
 #include <stdlib.h>
 
 /*BITS corresponding to the pins of the register*/
-#define SIM_SCGC5          (*((uint32_t *)(0x40048038)))
+#ifndef SIM_SCGC5_ADDR
+#define SIM_SCGC5_ADDR     (*((volatile uint32_t *)(0x40048038)))
+#endif
+
 #define SIM_SCGC5_PORTB    (1 << 10)
 #define SIM_SCGC5_PORTD    (1 << 12)
 

@@ -45,12 +45,10 @@ INCLUDES:= -I./../include/common \
 #added a make line to do unit testing
 else ifeq ($(PLATFORM),CMOCKA)
 CC = gcc
-CFLAGS = $(GENFLAGS) -DVERBOSE 
+CFLAGS = $(GENFLAGS) -DVERBOSE
+TARGET1 :=  unit_tests.elf
 INCLUDES:= -I./../include/common \
 -I./../include/CMSIS
-SRC -= ./main
-SRC += ./unit_tests.c
-
 
 #this will default to the native compiler
 else 
@@ -76,6 +74,14 @@ DEPFLAGS = #-MT -$@ -MMD -MP -MF $*.dep
 build: clean $(TARGET)
 $(TARGET):$(OBJS)
 	$(CC) $(CFLAGS) $(INCLUDES) $(LDFLAGS) $(OBJS) -o $(TARGET)
+
+#******************************************************************************
+#**********Command "make build"*******************************************
+.PHONY: build-test
+build-test: clean $(TARGET1)
+$(TARGET1):$(OBJS)
+	$(CC) $(CFLAGS) $(INCLUDES) $(LDFLAGS) $(OBJS) -o $(TARGET1)
+
 
 #**********Command "make clean"*******************************************
 .PHONY: clean
@@ -134,7 +140,7 @@ uart.s:uart.c
 	$(CC) $(CFLAGS) $(INCLUDES) uart.c -S -o uart.s
 
 unit_tests.s:unit_tests.c
-	$(CC) $(CFLAGS) $(INCLUDES) unit_test.c -S -o unit_tests.s
+	$(CC) $(CFLAGS) $(INCLUDES) unit_tests.c -S -o unit_tests.s
 
 #******This section will generate the preprocessed files*****************
 memory.i:memory.c
@@ -143,7 +149,7 @@ memory.i:memory.c
 project1.i:project1.c
 	$(CC) $(CFLAGS) $(INCLUDES)  project1.c -E -o project1.i
 
-data1.i:data.c
+data1.i:data1.c
 	$(CC) $(CFLAGS) $(INCLUDES) data1.c -E -o data1.i 
 
 debug.i:debug.c
@@ -168,7 +174,7 @@ uart.i:uart.c
 	$(CC) $(CFLAGS) $(INCLUDES) uart.c -E -o uart.i
 
 unit_tests.i:unit_tests.c
-	$(CC) $(CFLAGS) $(INCLUDES) unit_test.c -E -o unit_tests.i
+	$(CC) $(CFLAGS) $(INCLUDES) unit_tests.c -E -o unit_tests.i
 
 #**********Command "make compile-all"*************************************
 .PHONY: compile-all
@@ -211,7 +217,7 @@ uart.o:uart.c
 	$(CC) $(CFLAGS) $(INCLUDES) uart.c -c -o uart.o
 
 unit_tests.o:unit_tests.c
-	$(CC) $(CFLAGS) $(INCLUDES) unit_test.c -c -o unit_tests.o
+	$(CC) $(CFLAGS) $(INCLUDES) unit_tests.c -c -o unit_tests.o
 
 #**************************End of File************************************
 #************************************************************************

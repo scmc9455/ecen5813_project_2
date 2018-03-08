@@ -32,12 +32,11 @@ Created for ECEN5813
 #include "memory.h"
 #include "conversion.h"
 #include "debug.h"
-#include "data1.c"
+#include "data1.h"
 
 #include "project2.h"
 #include "uart.h"
 #include "circbuf.h"
-#include "gpio.h"
 
 typedef enum{
   TEST_PASS   =0,

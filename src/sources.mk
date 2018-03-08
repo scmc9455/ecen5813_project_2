@@ -21,7 +21,14 @@ else ifeq ($(PLATFORM),HOST)
 SRCS = ./data1.c ./debug.c ./memory.c ./conversion.c \
 ./project1.c ./main.c ./gpio.c ./circbuf.c ./uart.c
 #if no platform is speced, make defaults to native compiler
+
+else ifeq ($(PLATFORM),CMOCKA)
+SRCS = ./data1.c ./debug.c ./memory.c ./conversion.c \
+./project1.c ./circbuf.c ./uart.c ./unit_tests.c
+#if no platform is speced, make defaults to native compiler
+
 else
 SRCS = ./data1.c ./debug.c ./memory.c ./conversion.c \
-./project1.c ./main.c ./gpio.c ./circbuf.c ./uart.c
+./project1.c ./main.c ./gpio.c ./circbuf.c ./uart.c 
 endif
+

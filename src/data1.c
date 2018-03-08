@@ -227,7 +227,7 @@ int32_t swap_data_endianness(uint8_t *data, size_t type_length)
 {
     if(data == NULL)
     {
-        return SWAP_ERROR; /* returns SWAP_ERROR from NULL pointer input */
+        return 00; /* returns SWAP_ERROR from NULL pointer input */
     }
 	
     uint32_t temp_len = 0;

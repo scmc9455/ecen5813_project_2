@@ -11,7 +11,7 @@ The buffer needs to be atomic by enabling/disabling global interrupts
 with (__enable_irq() and __disable_irq()) CMSYS 
 functions (not needed on the BBB or HOST: map to nothing).
 
-bufferFull and BufferEmpty needs to be static inline 
+bufferFull and BufferEmpty needs to be inline 
 (These need to be accounted for on the C89 compiler)???
 
 This file is the source for the circular buffer functions
@@ -67,7 +67,7 @@ The buffer allocates Head,Tail, and count
 @return - status of the buffer
 **********************************************************************************************/
 
-CB_e CB_init(CB_t **buf_ptr,size_t length);
+CB_e CB_init(CB_t *buf_ptr,size_t length);
 
 /*********************************************************************************************/
 /***********************************CB_Destroy************************************************/
@@ -81,7 +81,7 @@ including memory and pointers using FREE. The pointer of the buffer is set to NU
 @return - status of the buffer
 **********************************************************************************************/
 
-CB_e CB_destroy(CB_t **buf_ptr);
+CB_e CB_destroy(CB_t *buf_ptr);
 
 /*********************************************************************************************/
 /******************************CB_buffer_add_item*********************************************/
@@ -124,7 +124,7 @@ The function takes in a pointer to the buffer, and checks to see if the buffer i
 @return - Full or Not Full (1 or 0)
 **********************************************************************************************/
 
-static inline CB_e CB_is_full(CB_t *buf_ptr) __attribute__ ((always_inline));
+CB_e CB_is_full(CB_t *buf_ptr);
 
 /*********************************************************************************************/
 /************************************CB_is_empty**********************************************/
@@ -137,7 +137,7 @@ The function takes in a pointer to the buffer, and checks to see if the buffer i
 @return - Empty or Not Empty (1 or 0)
 **********************************************************************************************/
 
-static inline CB_e CB_is_empty(CB_t *buf_ptr) __attribute__ ((always_inline));
+CB_e CB_is_empty(CB_t *buf_ptr); 
 
 /*********************************************************************************************/
 /****************************************CB_peek**********************************************/

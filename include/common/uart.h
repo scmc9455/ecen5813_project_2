@@ -45,7 +45,11 @@ typedef enum{
 #define BAUD_LS  (38400)
 /*System Defines*/
 #define SIM_SCGC4 (*((volatile uint32_t *)(0x40048034)))
+
+#ifndef SIM_SCGC5
 #define SIM_SCGC5 (*((volatile uint32_t *)(0x40048038)))
+#endif
+
 #define SIM_SCGC6 (*((volatile uint32_t *)(0x4004803C)))
 #define SIM_SCGC7 (*((volatile uint32_t *)(0x40048040)))
 

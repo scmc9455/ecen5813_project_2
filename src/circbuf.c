@@ -46,33 +46,33 @@ The buffer allocates Head,Tail, and count
 @return - status of the buffer
 **********************************************************************************************/
 
-CB_e CB_init(CB_t **buf_ptr, size_t length)
+CB_e CB_init(CB_t *buf_ptr, size_t length)
 {
     /*The function needs to be passed a pointer to a pointer so the address change be changed*/
     /*outside of the function, so the malloc structure is given to the address*/
     /*First check to see if the pointer is NULL*/
-    if (*buf_ptr == NULL)
+    if (buf_ptr == NULL)
     {
         /*The line below dynamically allocates the structure for the circular buffer*/
-        (*buf_ptr) = (CB_t *)malloc(sizeof(CB_t));
+        (buf_ptr) = (CB_t *)malloc(sizeof(CB_t));
     }
 
     /*If the value is returned as NULL the init returns an Error*/
-    if((*buf_ptr) == NULL)
+    if((buf_ptr) == NULL)
     {
         return CB_NULL_POINTER_ERROR;
     }else{
         /*Second the buffer itself needs to be setup*/
         /*The line below dynamically allocates the structure for the circular buffer*/
-        (*buf_ptr)->base = (uint8_t *)malloc(sizeof(*buf_ptr)*length);
+        buf_ptr->base = (uint8_t *)malloc(sizeof(buf_ptr)*length);
     }
    
     /*These next lines then store the values into the structure*/
     /*The head and tail are at the same location since nothing is in the buffer*/
-    (*buf_ptr)->head = (*buf_ptr)->base;
-    (*buf_ptr)->tail = (*buf_ptr)->base;
-    (*buf_ptr)->length = length;
-    (*buf_ptr)->count = 0;
+    buf_ptr->head = buf_ptr->base;
+    buf_ptr->tail = buf_ptr->base;
+    buf_ptr->length = length;
+    buf_ptr->count = 0;
     /*returns SUCCESS if this point is reached*/
     return CB_SUCCESS;
 }
@@ -89,24 +89,24 @@ including memory and pointers using FREE. The pointer of the buffer is set to NU
 @return - status of the buffer
 **********************************************************************************************/
 
-CB_e CB_destroy(CB_t **buf_ptr)
+CB_e CB_destroy(CB_t *buf_ptr)
 {
     /*This function cannot be performed if the pointer address is NULL*/
     /*So check to see if the value is NULL*/
-    if((*buf_ptr) == NULL)
+    if((buf_ptr) == NULL)
     {
         return CB_NULL_POINTER_ERROR;
     }
 
     /*Next the buffer base memory needs to be free (reverse oreder of init)*/
-    free((void *)(*buf_ptr)->base); /*(casted to void to so any type of data is freed)*/
+    free((void *)(buf_ptr->base)); /*(casted to void to so any type of data is freed)*/
     /*Null the hanging pointer*/
-    (*buf_ptr)->base = NULL;
+    buf_ptr->base = NULL;
 
     /*Next the buffer struture needs to be free (reverse oreder of init)*/
-    free((void *)(*buf_ptr)); /*(casted to void to so any type of data is freed)*/
+    free((void *)(buf_ptr)); /*(casted to void to so any type of data is freed)*/
     /*Null the hanging pointer*/
-    (*buf_ptr) = NULL;
+    buf_ptr = NULL;
 
     return CB_SUCCESS;
 }
@@ -220,7 +220,7 @@ The function takes in a pointer to the buffer, and checks to see if the buffer i
 @return - Full or Not Full
 **********************************************************************************************/
 
-__attribute__ ((always_inline)) static inline CB_e CB_is_full(CB_t *buf_ptr)
+CB_e CB_is_full(CB_t *buf_ptr)
 {
     /*First checks that structure and buffer has valid pointers*/
     if((buf_ptr==NULL)||(buf_ptr->base==NULL)||(buf_ptr->head==NULL)||(buf_ptr->tail==NULL))
@@ -247,7 +247,7 @@ The function takes in a pointer to the buffer, and checks to see if the buffer i
 @return - Empty or Not Empty
 **********************************************************************************************/
 
-__attribute__ ((always_inline)) static inline CB_e CB_is_empty(CB_t *buf_ptr)
+CB_e CB_is_empty(CB_t *buf_ptr)
 {
     /*First checks that structure and buffer has valid pointers*/
     if((buf_ptr==NULL)||(buf_ptr->base==NULL)||(buf_ptr->head==NULL)||(buf_ptr->tail==NULL))
