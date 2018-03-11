@@ -16,8 +16,11 @@ Created for ECEN5813
 #include "project1.h"
 #include "project2.h"
 
+#include "gpio.h"
+
 int main(void)
 {
+    uint32_t run=1;
     #ifdef PROJECT1	
         project1();
     #endif
@@ -25,6 +28,19 @@ int main(void)
     #ifdef PROJECT2	
         project2();
     #endif
+
+    #ifdef BOARD	
+        GPIO_Configure();
+        while(run)
+        {
+            PORTB_Toggle(RGB_RED_PIN);
+            for(uint32_t delay=0; delay<10000; delay++){};
+            PORTD_Toggle(RGB_GREEN_PIN);
+            for(uint32_t delay=0; delay<10000; delay++){};
+        }
+    #endif
+
+    while(run){};    
 }
 
 /*********************************************************************************************/

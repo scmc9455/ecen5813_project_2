@@ -63,8 +63,10 @@ endif
 
 ifeq ($(PROJECT),PROJECT1)
 CFLAGS += -DPROJECT1
-else ifeq ($(PLATFORM),PROJECT1)
+else ifeq ($(PROJECT),PROJECT2)
 CFLAGS += -DPROJECT2
+else ifeq ($(PROJECT),BOARD)
+CFLAGS += -DBOARD
 endif
 
 OBJS:= $(SRCS:.c=.o)

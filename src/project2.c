@@ -18,6 +18,7 @@ Created for ECEN5813
 #include "debug.h"
 
 #include "project2.h"
+#include "data1.h"
 #include "uart.h"
 #include "circbuf.h"
 #include "gpio.h"

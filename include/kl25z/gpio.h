@@ -31,13 +31,13 @@ Created for ECEN5813
 #define SIM_SCGC5_ADDR     (*((volatile uint32_t *)(0x40048038)))
 #endif
 
-#define SIM_SCGC5_PORTB    (1 << 10)
-#define SIM_SCGC5_PORTD    (1 << 12)
+#define SIM_SCGC5_PORTB    ((uint32_t)1 << 10)
+#define SIM_SCGC5_PORTD    ((uint32_t)1 << 12)
 
 /*BITS corresponding to the pins of the register*/
-#define PIN18              (1 << 18)
-#define PIN19              (1 << 19)
-#define PIN1               (1 << 1)
+#define PIN18              ((uint8_t)18)
+#define PIN19              ((uint8_t)19)
+#define PIN1               ((uint8_t)1)
 
 /*direct dereferencing to PORTB PTB18 crtl*/
 #define PORTB_PCR18        (*((volatile uint32_t *)(0x4004A048))) 
