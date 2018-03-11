@@ -15,9 +15,6 @@ include sources.mk
 GENFLAGS:= -Wall -Werror -g -O0 -std=c99
 LDFLAGS:= -Wl,-Map=main.map
 
-#SRC defined in sources.mk
-#Includes defined in source.mk file
-#
 #**************Switch statements for the platform determination**********
 ifeq ($(PLATFORM),KL25Z)
 CPU = cortex-m0plus
@@ -30,15 +27,16 @@ INCLUDES = -I./../include/common \
 -I./../include/CMSIS \
 -I./../platform
 LDFLAGS += -T ./../platform/MKL25Z128xxx4_flash.ld
+
 else ifeq ($(PLATFORM),BBB)
 CC = arm-linux-gnueabi-gcc
-CFLAGS = $(GENFLAGS) -DVERBOSE 
+CFLAGS = $(GENFLAGS) -DVERBOSE
 INCLUDES = -I./../include/common \
 -I./../include/CMSIS
 
 else ifeq ($(PLATFORM),HOST)
 CC = gcc
-CFLAGS = $(GENFLAGS) -DVERBOSE 
+CFLAGS = $(GENFLAGS) -DVERBOSE
 INCLUDES:= -I./../include/common \
 -I./../include/CMSIS
 
@@ -48,7 +46,8 @@ CC = gcc
 CFLAGS = $(GENFLAGS) -DVERBOSE
 TARGET1 :=  unit_tests.elf
 INCLUDES:= -I./../include/common \
--I./../include/CMSIS
+-I./../include/CMSIS \
+-I./../include/kl25z
 
 #this will default to the native compiler
 else 
@@ -61,6 +60,13 @@ INCLUDES:= -I./../include/common \
 endif	
 
 #variables that are needed for the build
+
+ifeq ($(PROJECT),PROJECT1)
+CFLAGS += -DPROJECT1
+else ifeq ($(PLATFORM),PROJECT1)
+CFLAGS += -DPROJECT2
+endif
+
 OBJS:= $(SRCS:.c=.o)
 PREPRO:= $(SRCS:.c=.i)
 ASM:= $(SRCS:.c=.s)

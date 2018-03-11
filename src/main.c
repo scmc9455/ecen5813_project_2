@@ -18,7 +18,6 @@ Created for ECEN5813
 
 int main(void)
 {
-    uint32_t run = 1;
     #ifdef PROJECT1	
         project1();
     #endif
@@ -26,11 +25,6 @@ int main(void)
     #ifdef PROJECT2	
         project2();
     #endif
-	
-    while(run)
-    {	
-        /* infinite loop in code */
-    }
 }
 
 /*********************************************************************************************/

@@ -98,7 +98,7 @@ Blue LED is PORTD-Pin1 initial state off
 @return - void
 **********************************************************************************************/
 
-static inline void GPIO_Configure() __attribute__ ((always_inline));
+void GPIO_Configure();
 
 /*********************************************************************************************/
 /******************************Toggle_RED_LED*************************************************/
@@ -109,7 +109,7 @@ static inline void GPIO_Configure() __attribute__ ((always_inline));
 @return - void
 **********************************************************************************************/
 
-static inline void Toggle_Red_LED() __attribute__ ((always_inline));
+void Toggle_Red_LED();
 
 /*********************************************************************************************/
 /******************************PORTB_Set******************************************************/
@@ -120,7 +120,7 @@ static inline void Toggle_Red_LED() __attribute__ ((always_inline));
 @return - void
 **********************************************************************************************/
 
-static inline void PORTB_Set(uint8_t bit_num) __attribute__ ((always_inline));
+void PORTB_Set(uint8_t bit_num);
 
 /*********************************************************************************************/
 /******************************PORTD_Set******************************************************/
@@ -131,7 +131,7 @@ static inline void PORTB_Set(uint8_t bit_num) __attribute__ ((always_inline));
 @return - void
 **********************************************************************************************/
 
-static inline void PORTD_Set(uint8_t bit_num) __attribute__ ((always_inline));
+void PORTD_Set(uint8_t bit_num);
 
 /*********************************************************************************************/
 /******************************PORTB_Clear****************************************************/
@@ -142,7 +142,7 @@ static inline void PORTD_Set(uint8_t bit_num) __attribute__ ((always_inline));
 @return - void
 **********************************************************************************************/
 
-static inline void PORTB_Clear(uint8_t bit_num) __attribute__ ((always_inline));
+void PORTB_Clear(uint8_t bit_num);
 
 /*********************************************************************************************/
 /******************************PORTD_Clear****************************************************/
@@ -153,7 +153,7 @@ static inline void PORTB_Clear(uint8_t bit_num) __attribute__ ((always_inline));
 @return - void
 **********************************************************************************************/
 
-static inline void PORTD_Clear(uint8_t bit_num) __attribute__ ((always_inline));
+void PORTD_Clear(uint8_t bit_num);
 
 /*********************************************************************************************/
 /******************************PORTB_Toggle**************************************************/
@@ -164,7 +164,7 @@ static inline void PORTD_Clear(uint8_t bit_num) __attribute__ ((always_inline));
 @return - void
 **********************************************************************************************/
 
-static inline void PORTB_Toggle(uint8_t bit_num) __attribute__ ((always_inline));
+void PORTB_Toggle(uint8_t bit_num);
 
 /*********************************************************************************************/
 /******************************PORTD_Toggle***************************************************/
@@ -175,7 +175,7 @@ static inline void PORTB_Toggle(uint8_t bit_num) __attribute__ ((always_inline))
 @return - void
 **********************************************************************************************/
 
-static inline void PORTD_Toggle(uint8_t bit_num) __attribute__ ((always_inline));
+void PORTD_Toggle(uint8_t bit_num);
 
 /*********************************************************************************************/
 
