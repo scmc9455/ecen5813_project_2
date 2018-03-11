@@ -50,10 +50,10 @@ uint8_t my_itoa(int32_t data, uint8_t * ptr, uint32_t base)
     uint8_t temp_len, length = 0;
     uint8_t divide_temp;
     uint32_t modulus_var, remainder;
-    int32_t data_neg;
+    int32_t data_neg=0;
 
     /* Start of Conversion function, architecture independent*/
-    *ptr = 0; /* NULL character at the end of the low byte*/
+    *ptr = 0x0; /* NULL character at the end of the low byte*/
     length++;
     /********Base conversion sequence and pointer storage*******/
     if(data < 0)
@@ -63,9 +63,14 @@ uint8_t my_itoa(int32_t data, uint8_t * ptr, uint32_t base)
     } 
 
     modulus_var = (uint32_t) data; /*type cast data to unsigned type*/ 
-
+    if(modulus_var == 0)
+    {
+        *(ptr+length) = ((uint32_t)0x30);
+        length++;
+        return length;
+    }
     /****************NEW CODE FOR CONVERSION**********************************/
-    while(modulus_var >= 0)
+    while(modulus_var > 0)
     {
         remainder = modulus_var % base;
         modulus_var = modulus_var / base;
@@ -74,7 +79,7 @@ uint8_t my_itoa(int32_t data, uint8_t * ptr, uint32_t base)
             break;
         }
         /*load ASCII value from the remainder*/
-        *(ptr+length) = (remainder + (uint32_t)0x30);
+        *(ptr+length) = (remainder + ((uint32_t)0x30));
         length++;
     }
     /****************NEW CODE FOR CONVERSION**********************************/

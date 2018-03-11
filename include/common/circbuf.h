@@ -67,7 +67,7 @@ The buffer allocates Head,Tail, and count
 @return - status of the buffer
 **********************************************************************************************/
 
-CB_e CB_init(CB_t *buf_ptr,size_t length);
+CB_e CB_init(CB_t **buf_ptr,size_t length);
 
 /*********************************************************************************************/
 /***********************************CB_Destroy************************************************/
@@ -81,7 +81,7 @@ including memory and pointers using FREE. The pointer of the buffer is set to NU
 @return - status of the buffer
 **********************************************************************************************/
 
-CB_e CB_destroy(CB_t *buf_ptr);
+CB_e CB_destroy(CB_t **buf_ptr);
 
 /*********************************************************************************************/
 /******************************CB_buffer_add_item*********************************************/

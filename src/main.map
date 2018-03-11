@@ -163,7 +163,7 @@ LOAD /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crtn.o
 .plt.bnd
  *(.plt.bnd)
 
-.text           0x00000000004005c0     0x2a62
+.text           0x00000000004005c0     0x2d82
  *(.text.unlikely .text.*_unlikely .text.unlikely.*)
  .text.unlikely
                 0x00000000004005c0        0x0 /usr/lib/gcc/x86_64-linux-gnu/5/crtbegin.o
@@ -178,119 +178,119 @@ LOAD /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crtn.o
  .text          0x00000000004005ea        0x0 /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crti.o
  *fill*         0x00000000004005ea        0x6 
  .text          0x00000000004005f0       0xc6 /usr/lib/gcc/x86_64-linux-gnu/5/crtbegin.o
- .text          0x00000000004006b6      0x5a4 ./data1.o
+ .text          0x00000000004006b6      0x5b2 ./data1.o
                 0x00000000004006b6                print_cstd_type_sizes
                 0x0000000000400829                print_stdint_type_sizes
                 0x00000000004009d8                print_pointer_sizes
                 0x0000000000400b69                swap_data_endianness
-                0x0000000000400c08                determine_endianness
- .text          0x0000000000400c5a       0x5a ./debug.o
-                0x0000000000400c5a                print_array
- .text          0x0000000000400cb4      0x2a6 ./memory.o
-                0x0000000000400cb4                my_memmove
-                0x0000000000400d5e                my_memcpy
-                0x0000000000400dbf                my_memset
-                0x0000000000400e0f                my_memzero
-                0x0000000000400e57                my_reverse
-                0x0000000000400efd                reserve_words
-                0x0000000000400f30                free_words
- .text          0x0000000000400f5a      0x2ea ./conversion.o
-                0x0000000000400f5a                my_itoa
-                0x00000000004010b5                my_atoi
- .text          0x0000000000401244      0x8fe ./project1.o
-                0x0000000000401244                test_data1
-                0x00000000004012fe                test_data2
-                0x00000000004013b8                test_memmove1
-                0x00000000004014a5                test_memmove2
-                0x0000000000401592                test_memmove3
-                0x0000000000401684                test_memcpy
-                0x0000000000401771                test_memset
-                0x0000000000401895                test_reverse
-                0x0000000000401a21                project1
- .text          0x0000000000401b42      0x43a ./circbuf.o
-                0x0000000000401b42                CB_init
-                0x0000000000401bcc                CB_destroy
-                0x0000000000401c1b                CB_buffer_add_item
-                0x0000000000401cec                CB_buffer_remove_item
-                0x0000000000401dc8                CB_is_full
-                0x0000000000401e40                CB_is_empty
-                0x0000000000401eac                CB_peek
- .text          0x0000000000401f7c      0x330 ./uart.o
-                0x0000000000401f7c                UART_configure
-                0x00000000004020f0                UART_send
-                0x000000000040212f                UART_send_n
-                0x000000000040218d                UART_receive
-                0x00000000004021c8                UART_receive_n
-                0x0000000000402222                UART0_IRQHandler
- .text          0x00000000004022ac      0xcff ./unit_tests.o
-                0x00000000004022ac                main
-                0x00000000004023f8                memmove_tests
-                0x0000000000402707                memset_tests
-                0x00000000004027f8                memzero_tests
-                0x00000000004028f6                reverse_tests
-                0x0000000000402aae                atoi_tests
-                0x0000000000402bd0                itoa_tests
-                0x0000000000402cfe                endianness_tests
-                0x0000000000402de9                circbuf_tests
- *fill*         0x0000000000402fab        0x5 
- .text          0x0000000000402fb0       0x72 /usr/lib/x86_64-linux-gnu/libc_nonshared.a(elf-init.oS)
-                0x0000000000402fb0                __libc_csu_init
-                0x0000000000403020                __libc_csu_fini
- .text          0x0000000000403022        0x0 /usr/lib/gcc/x86_64-linux-gnu/5/crtend.o
- .text          0x0000000000403022        0x0 /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crtn.o
+                0x0000000000400c16                determine_endianness
+ .text          0x0000000000400c68       0x5a ./debug.o
+                0x0000000000400c68                print_array
+ .text          0x0000000000400cc2      0x2a6 ./memory.o
+                0x0000000000400cc2                my_memmove
+                0x0000000000400d6c                my_memcpy
+                0x0000000000400dcd                my_memset
+                0x0000000000400e1d                my_memzero
+                0x0000000000400e65                my_reverse
+                0x0000000000400f0b                reserve_words
+                0x0000000000400f3e                free_words
+ .text          0x0000000000400f68      0x31e ./conversion.o
+                0x0000000000400f68                my_itoa
+                0x00000000004010f7                my_atoi
+ .text          0x0000000000401286      0x8fe ./project1.o
+                0x0000000000401286                test_data1
+                0x0000000000401340                test_data2
+                0x00000000004013fa                test_memmove1
+                0x00000000004014e7                test_memmove2
+                0x00000000004015d4                test_memmove3
+                0x00000000004016c6                test_memcpy
+                0x00000000004017b3                test_memset
+                0x00000000004018d7                test_reverse
+                0x0000000000401a63                project1
+ .text          0x0000000000401b84      0x4e1 ./circbuf.o
+                0x0000000000401b84                CB_init
+                0x0000000000401c31                CB_destroy
+                0x0000000000401c83                CB_buffer_add_item
+                0x0000000000401daa                CB_buffer_remove_item
+                0x0000000000401eca                CB_is_full
+                0x0000000000401f29                CB_is_empty
+                0x0000000000401f95                CB_peek
+ .text          0x0000000000402065      0x330 ./uart.o
+                0x0000000000402065                UART_configure
+                0x00000000004021d9                UART_send
+                0x0000000000402218                UART_send_n
+                0x0000000000402276                UART_receive
+                0x00000000004022b1                UART_receive_n
+                0x000000000040230b                UART0_IRQHandler
+ .text          0x0000000000402395      0xf3a ./unit_tests.o
+                0x0000000000402395                main
+                0x00000000004024e1                memmove_tests
+                0x00000000004027f0                memset_tests
+                0x00000000004028e1                memzero_tests
+                0x00000000004029df                reverse_tests
+                0x0000000000402b97                atoi_tests
+                0x0000000000402cbd                itoa_tests
+                0x0000000000402deb                endianness_tests
+                0x0000000000402eda                circbuf_tests
+ *fill*         0x00000000004032cf        0x1 
+ .text          0x00000000004032d0       0x72 /usr/lib/x86_64-linux-gnu/libc_nonshared.a(elf-init.oS)
+                0x00000000004032d0                __libc_csu_init
+                0x0000000000403340                __libc_csu_fini
+ .text          0x0000000000403342        0x0 /usr/lib/gcc/x86_64-linux-gnu/5/crtend.o
+ .text          0x0000000000403342        0x0 /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crtn.o
  *(.gnu.warning)
 
-.fini           0x0000000000403024        0x9
+.fini           0x0000000000403344        0x9
  *(SORT(.fini))
- .fini          0x0000000000403024        0x4 /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crti.o
-                0x0000000000403024                _fini
- .fini          0x0000000000403028        0x5 /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crtn.o
+ .fini          0x0000000000403344        0x4 /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crti.o
+                0x0000000000403344                _fini
+ .fini          0x0000000000403348        0x5 /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crtn.o
                 [!provide]                        PROVIDE (__etext, .)
                 [!provide]                        PROVIDE (_etext, .)
                 [!provide]                        PROVIDE (etext, .)
 
-.rodata         0x0000000000403030      0x7ef
+.rodata         0x0000000000403350      0xa80
  *(.rodata .rodata.* .gnu.linkonce.r.*)
- .rodata.cst4   0x0000000000403030        0x4 /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crt1.o
-                0x0000000000403030                _IO_stdin_used
- .rodata        0x0000000000403034      0x208 ./data1.o
- .rodata        0x000000000040323c        0x4 ./debug.o
- .rodata        0x0000000000403240      0x185 ./project1.o
- *fill*         0x00000000004033c5        0x3 
- .rodata        0x00000000004033c8      0x457 ./unit_tests.o
+ .rodata.cst4   0x0000000000403350        0x4 /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crt1.o
+                0x0000000000403350                _IO_stdin_used
+ .rodata        0x0000000000403354      0x208 ./data1.o
+ .rodata        0x000000000040355c        0x4 ./debug.o
+ .rodata        0x0000000000403560      0x185 ./project1.o
+ *fill*         0x00000000004036e5        0x3 
+ .rodata        0x00000000004036e8      0x6e8 ./unit_tests.o
 
 .rodata1
  *(.rodata1)
 
-.eh_frame_hdr   0x0000000000403820      0x19c
+.eh_frame_hdr   0x0000000000403dd0      0x19c
  *(.eh_frame_hdr)
- .eh_frame_hdr  0x0000000000403820      0x19c /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crt1.o
-                0x0000000000403820                __GNU_EH_FRAME_HDR
+ .eh_frame_hdr  0x0000000000403dd0      0x19c /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crt1.o
+                0x0000000000403dd0                __GNU_EH_FRAME_HDR
  *(.eh_frame_entry .eh_frame_entry.*)
 
-.eh_frame       0x00000000004039c0      0x694
+.eh_frame       0x0000000000403f70      0x69c
  *(.eh_frame)
- .eh_frame      0x00000000004039c0       0x30 /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crt1.o
- .eh_frame      0x00000000004039f0       0x40 /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crt1.o
- .eh_frame      0x0000000000403a30       0xa0 ./data1.o
+ .eh_frame      0x0000000000403f70       0x30 /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crt1.o
+ .eh_frame      0x0000000000403fa0       0x40 /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crt1.o
+ .eh_frame      0x0000000000403fe0       0xa0 ./data1.o
                                          0xb8 (size before relaxing)
- .eh_frame      0x0000000000403ad0       0x20 ./debug.o
+ .eh_frame      0x0000000000404080       0x20 ./debug.o
                                          0x38 (size before relaxing)
- .eh_frame      0x0000000000403af0       0xe0 ./memory.o
+ .eh_frame      0x00000000004040a0       0xe0 ./memory.o
                                          0xf8 (size before relaxing)
- .eh_frame      0x0000000000403bd0       0x40 ./conversion.o
+ .eh_frame      0x0000000000404180       0x40 ./conversion.o
                                          0x58 (size before relaxing)
- .eh_frame      0x0000000000403c10      0x120 ./project1.o
+ .eh_frame      0x00000000004041c0      0x120 ./project1.o
                                         0x138 (size before relaxing)
- .eh_frame      0x0000000000403d30       0xe0 ./circbuf.o
-                                         0xf8 (size before relaxing)
- .eh_frame      0x0000000000403e10       0xc0 ./uart.o
+ .eh_frame      0x00000000004042e0       0xe8 ./circbuf.o
+                                        0x100 (size before relaxing)
+ .eh_frame      0x00000000004043c8       0xc0 ./uart.o
                                          0xd8 (size before relaxing)
- .eh_frame      0x0000000000403ed0      0x120 ./unit_tests.o
+ .eh_frame      0x0000000000404488      0x120 ./unit_tests.o
                                         0x138 (size before relaxing)
- .eh_frame      0x0000000000403ff0       0x60 /usr/lib/x86_64-linux-gnu/libc_nonshared.a(elf-init.oS)
+ .eh_frame      0x00000000004045a8       0x60 /usr/lib/x86_64-linux-gnu/libc_nonshared.a(elf-init.oS)
                                          0x78 (size before relaxing)
- .eh_frame      0x0000000000404050        0x4 /usr/lib/gcc/x86_64-linux-gnu/5/crtend.o
+ .eh_frame      0x0000000000404608        0x4 /usr/lib/gcc/x86_64-linux-gnu/5/crtend.o
  *(.eh_frame.*)
 
 .gcc_except_table
@@ -524,38 +524,38 @@ LOAD /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crtn.o
 .debug_pubnames
  *(.debug_pubnames)
 
-.debug_info     0x0000000000000000     0x1690
+.debug_info     0x0000000000000000     0x16a8
  *(.debug_info .gnu.linkonce.wi.*)
  .debug_info    0x0000000000000000      0x1dd ./data1.o
  .debug_info    0x00000000000001dd       0xdf ./debug.o
  .debug_info    0x00000000000002bc      0x2d0 ./memory.o
  .debug_info    0x000000000000058c      0x22d ./conversion.o
  .debug_info    0x00000000000007b9      0x425 ./project1.o
- .debug_info    0x0000000000000bde      0x2c7 ./circbuf.o
- .debug_info    0x0000000000000ea5      0x22a ./uart.o
- .debug_info    0x00000000000010cf      0x5c1 ./unit_tests.o
+ .debug_info    0x0000000000000bde      0x2cf ./circbuf.o
+ .debug_info    0x0000000000000ead      0x22a ./uart.o
+ .debug_info    0x00000000000010d7      0x5d1 ./unit_tests.o
 
-.debug_abbrev   0x0000000000000000      0x61e
+.debug_abbrev   0x0000000000000000      0x63a
  *(.debug_abbrev)
  .debug_abbrev  0x0000000000000000       0xbb ./data1.o
  .debug_abbrev  0x00000000000000bb       0x78 ./debug.o
  .debug_abbrev  0x0000000000000133       0xc6 ./memory.o
  .debug_abbrev  0x00000000000001f9       0xa3 ./conversion.o
  .debug_abbrev  0x000000000000029c       0xe3 ./project1.o
- .debug_abbrev  0x000000000000037f       0xeb ./circbuf.o
- .debug_abbrev  0x000000000000046a       0xb7 ./uart.o
- .debug_abbrev  0x0000000000000521       0xfd ./unit_tests.o
+ .debug_abbrev  0x000000000000037f      0x107 ./circbuf.o
+ .debug_abbrev  0x0000000000000486       0xb7 ./uart.o
+ .debug_abbrev  0x000000000000053d       0xfd ./unit_tests.o
 
-.debug_line     0x0000000000000000      0xac6
+.debug_line     0x0000000000000000      0xb5d
  *(.debug_line .debug_line.* .debug_line_end)
- .debug_line    0x0000000000000000      0x12b ./data1.o
- .debug_line    0x000000000000012b       0x64 ./debug.o
- .debug_line    0x000000000000018f       0xf6 ./memory.o
- .debug_line    0x0000000000000285       0xce ./conversion.o
- .debug_line    0x0000000000000353      0x1df ./project1.o
- .debug_line    0x0000000000000532      0x175 ./circbuf.o
- .debug_line    0x00000000000006a7      0x15a ./uart.o
- .debug_line    0x0000000000000801      0x2c5 ./unit_tests.o
+ .debug_line    0x0000000000000000      0x12c ./data1.o
+ .debug_line    0x000000000000012c       0x64 ./debug.o
+ .debug_line    0x0000000000000190       0xf6 ./memory.o
+ .debug_line    0x0000000000000286       0xd5 ./conversion.o
+ .debug_line    0x000000000000035b      0x1df ./project1.o
+ .debug_line    0x000000000000053a      0x17f ./circbuf.o
+ .debug_line    0x00000000000006b9      0x15a ./uart.o
+ .debug_line    0x0000000000000813      0x34a ./unit_tests.o
 
 .debug_frame
  *(.debug_frame)

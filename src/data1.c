@@ -233,10 +233,10 @@ int32_t swap_data_endianness(uint8_t *data, size_t type_length)
     uint32_t temp_len = 0;
     uint32_t data_temp;
 
-    while(temp_len <= (type_length/2))
+    while(temp_len < (type_length/2))
     {
-        data_temp = *((data+type_length)-temp_len);
-        *((data+type_length)-temp_len) = *(data+temp_len);
+        data_temp = *((data+(type_length-1))-temp_len);
+        *((data+(type_length-1))-temp_len) = *(data+temp_len);
         *(data+temp_len) = data_temp;
         temp_len++;
     }
