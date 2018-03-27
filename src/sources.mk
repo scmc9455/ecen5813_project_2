@@ -13,7 +13,7 @@
 ifeq ($(PLATFORM),KL25Z)
 SRCS = ./data1.c ./debug.c ./memory.c ./conversion.c \
 ./project1.c ./arch_arm32.c ./main.c ./gpio.c ./circbuf.c ./uart.c \
-./system_MKL25Z4.c ./startup_MKL25Z4.S
+./system_MKL25Z4.c ./startup_MKL25Z4.S ./project2.c
 else ifeq ($(PLATFORM),BBB)
 SRCS = ./data1.c ./debug.c ./memory.c ./conversion.c \
 ./project1.c ./main.c ./circbuf.c
@@ -24,7 +24,7 @@ SRCS = ./data1.c ./debug.c ./memory.c ./conversion.c \
 
 else ifeq ($(PLATFORM),CMOCKA)
 SRCS = ./data1.c ./debug.c ./memory.c ./conversion.c \
-./project1.c ./circbuf.c ./uart.c ./unit_tests.c
+./project1.c ./circbuf.c ./unit_tests.c
 #if no platform is speced, make defaults to native compiler
 
 else

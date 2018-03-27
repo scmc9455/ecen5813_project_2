@@ -46,15 +46,17 @@ The buffer allocates Head,Tail, and count
 @return - status of the buffer
 **********************************************************************************************/
 
-CB_e CB_init(CB_t **buf_ptr, size_t length)
+CB_e CB_init(CB_t **buf_ptr, uint32_t length)
 {
     /*The function needs to be passed a pointer to a pointer so the address change be changed*/
     /*outside of the function, so the malloc structure is given to the address*/
     /*First check to see if the pointer is NULL*/
-    if (buf_ptr != NULL)
+    if(length > 0)
     {
         /*The line below dynamically allocates the structure for the circular buffer*/
         (*buf_ptr) = (CB_t *)malloc(sizeof(CB_t));
+    }else{
+    	return CB_NO_LENGTH_ERROR;
     }
 
     /*If the value is returned as NULL the init returns an Error*/

@@ -13,31 +13,20 @@ This also include all the necessary libraries and headers that are used in each 
 Created for ECEN5813
 **********************************************************************************************/
 
-#include "project1.h"
+//#include "project1.h"
 #include "project2.h"
 
-#include "gpio.h"
+#include "MKL25Z4.h"
 
 int main(void)
 {
     uint32_t run=1;
-    #ifdef PROJECT1	
+    #ifdef PROJECT1
         project1();
     #endif
     
-    #ifdef PROJECT2	
-        project2();
-    #endif
-
-    #ifdef BOARD	
-        GPIO_Configure();
-        while(run)
-        {
-            PORTB_Toggle(RGB_RED_PIN);
-            for(uint32_t delay=0; delay<10000; delay++){};
-            PORTD_Toggle(RGB_GREEN_PIN);
-            for(uint32_t delay=0; delay<10000; delay++){};
-        }
+    #ifdef PROJECT2
+        program2();
     #endif
 
     while(run){};    

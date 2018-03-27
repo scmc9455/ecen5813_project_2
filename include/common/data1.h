@@ -39,7 +39,7 @@ Reports - Char, short, int, long, double, float, unsigned char, unsigned int, un
 @return - void
 **********************************************************************************************/
 
-void print_cstd_type_sizes();
+void print_cstd_type_sizes(void);
 
 /*********************************************************************************************/
 /******************************print_stdint_type_sizes********************************************/
@@ -53,7 +53,7 @@ uint_least8_t, uint_least16_t, uint_least32_t, size_t, ptrdiff_t
 @return - void
 **********************************************************************************************/
 
-void print_stdint_type_sizes();
+void print_stdint_type_sizes(void);
 
 /*********************************************************************************************/
 /******************************print_pointer_sizes************************************************/
@@ -66,7 +66,7 @@ Reports char *, short *, int *, long *, double *, float *, void *, int8_t *, int
 @return - void
 **********************************************************************************************/
 
-void print_pointer_sizes();
+void print_pointer_sizes(void);
 
 /*********************************************************************************************/
 /******************************swap_data_endianness*********************************************/
@@ -93,6 +93,6 @@ This will report back what the data endianness is so it can be changed if need b
 @return - value of endianness
 **********************************************************************************************/
 
-uint32_t determine_endianness();
+uint32_t determine_endianness(void);
 
 #endif /*__DATA1_H__*/

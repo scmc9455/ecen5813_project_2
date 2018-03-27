@@ -34,85 +34,82 @@ Created for ECEN5813
 
 #include <stdint.h>
 #include <stdlib.h>
+#include "circbuf.h"
+#include "project2.h"
 
 typedef enum{
   UART_SUCCESS =0,
   UART_FAIL    =1
 }status_e;
 
-#define BAUD_HS  (115200)
-#define BAUD_MS  (57200)
-#define BAUD_LS  (38400)
 /*System Defines*/
-#define SIM_SCGC4 (*((volatile uint32_t *)(0x40048034)))
+#define __SIM_SCGC4 (*((volatile uint32_t *)(0x40048034)))
+#define __SIM_SCGC5 (*((volatile uint32_t *)(0x40048038)))
+#define __SIM_SOPT2 (*((volatile uint32_t *)(0x40048004)))
+#define __SIM_SOPT5 (*((volatile uint32_t *)(0x40048010)))
+#define SIM_PORTA_CG    (1 << 9)
+#define SIM_PLLFLLSEL   (1 << 16)
+#define SIM_UART0_CG    (1 << 10)
+#define SIM_UART0SRC_MCGFLLCLK  (0b01 << 26)
+#define SIM_UART0ODE    (1 << 16)
+#define SIM_UART0RXSRC  (1 << 6)
+#define SIM_UART0TXSRC  (0b11)
 
-#ifndef SIM_SCGC5
-#define SIM_SCGC5 (*((volatile uint32_t *)(0x40048038)))
-#endif
+#define __PORTA_PCR1 (*((volatile uint32_t *)(0x40049004)))
+#define __PORTA_PCR2 (*((volatile uint32_t *)(0x40049008)))
+#define __ALT0       (0b000 << 8)
+#define __ALT2       (0b010 << 8)
 
-#define SIM_SCGC6 (*((volatile uint32_t *)(0x4004803C)))
-#define SIM_SCGC7 (*((volatile uint32_t *)(0x40048040)))
-
-#define SIM_PORTA_MASK (0x200)
-#define SIM_PORTB_MASK (0x400)
-#define SIM_PORTC_MASK (0x800)
-#define SIM_PORTD_MASK (0x1000)
-#define SIM_PORTE_MASK (0x2000)
-
-#define SIM_UART0_MASK (0x400)
-#define SIM_UART1_MASK (0x800)
-#define SIM_UART2_MASK (0x1000)
-
-#define PORTA_PCR1 (*((volatile uint32_t *)(0x40049004)))
-#define PORTA_PCR2 (*((volatile uint32_t *)(0x40049008)))
-
-#define ALT0 (0b000 << 8)
-#define ALT2 (0b010 << 8)
-
-#define SIM_SOPT2 (*((volatile uint32_t *)(0x40048004)))
-#define SIM_SOPT5 (*((volatile uint32_t *)(0x40048010)))
 /*UART Defines*/
-#define UART0SRC_MCGFLLCLK (0b01 << 26)
-#define PLLFLLSEL          (0b1 << 16)
-#define UART0RXSRC         (0b1 << 2)
-#define UART0TXSRC         (0b11)
+#define __UART0_BDH  (*((volatile uint8_t *)(0x4006A000)))
+#define __UART0_BDL  (*((volatile uint8_t *)(0x4006A001)))
+#define __UART0_C1   (*((volatile uint8_t *)(0x4006A002)))
+#define __UART0_C2   (*((volatile uint8_t *)(0x4006A003)))
+#define __UART0_S1   (*((volatile uint8_t *)(0x4006A004)))
+#define __UART0_S2   (*((volatile uint8_t *)(0x4006A005)))
+#define __UART0_C3   (*((volatile uint8_t *)(0x4006A006)))
+#define __UART0_D    (*((volatile uint8_t *)(0x4006A007)))
+#define __UART0_C4   (*((volatile uint8_t *)(0x4006A00A)))
+#define __UART0_C5   (*((volatile uint8_t *)(0x4006A00B)))
 
-#define UART0_BDH  (*((volatile uint32_t *)(0x4006A000)))
-#define UART0_BDL  (*((volatile uint32_t *)(0x4006A001)))
-#define UART0_C1   (*((volatile uint32_t *)(0x4006A002)))
-#define UART0_C2   (*((volatile uint32_t *)(0x4006A003)))
-#define UART0_S1   (*((volatile uint32_t *)(0x4006A004)))
-#define UART0_S2   (*((volatile uint32_t *)(0x4006A005)))
-#define UART0_C3   (*((volatile uint32_t *)(0x4006A006)))
-#define UART0_D    (*((volatile uint32_t *)(0x4006A007)))
-#define UART0_C4   (*((volatile uint32_t *)(0x4006A00A)))
-#define UART0_C5   (*((volatile uint32_t *)(0x4006A00B)))
+#define __UART_PARITY_EN  (0b1 << 1)
+#define __UART_STOP_BIT   (0b1 << 5)
+#define __UART_8BIT       (0b1 << 4)
+#define __UART_TX_EN      (0b1 << 3)
+#define __UART_RX_EN      (0b1 << 2)
+#define __UART_RIE        (0b1 << 5)
+#define __UART_TIE        (0b1 << 7)
+#define __OSR_16          (0b01111)
+#define __UART_SBR_BDH    (0b1111)
+#define __UART_SBR_BDL    (0xFF)
+#define __UART_MSB_FIRST  (0b1 << 5)
+#define __UART_TDRE       (0b1 << 7)
+#define __UART_RDRF       (0b1 << 5)
 
-#define UART_PARITY_EN  (0b1 << 1)
-#define UART_STOP_BIT   (0b1 << 5)
-#define UART_8BIT       (0b1 << 4)
-#define UART_TX_EN      (0b1 << 3)
-#define UART_RX_EN      (0b1 << 2)
-#define UART_RIE        (0b1 << 5)
-#define UART_TIE        (0b1 << 7)
-#define OSR_16x         (0b01111)
-#define UART_SBR_BDH    (0b1111)
-#define UART_SBR_BDL    (0xFF)
-#define MCGFLLCLK_4MHz  (4000000)
-#define UART_MSB_FIRST  (0b1 << 5)
-#define UART_TDRE       (0b1 << 7)
-#define UART_RDRF       (0b1 << 5)
+#define SYS_CLK      (21000000)
+#define OSR_SAMP     (__OSR_16)
+#define BAUD_MOD(x)  (SYS_CLK/((OSR_SAMP + 1)*(x)))
+#define BDL_MASK     (0xFF)
+#define BDH_MASK     (0x1F00)
 
 /*Including CMSIS and device.h info*/
-#define UART0_interrupt (12)
-#define __NVIC_SET_REG      (*((uint32_t *)(0xE000E100)))
-#define __NVIC_CLEAR_REG    (*((uint32_t *)(0xE000E180)))
-#define disable_NVIC_IRQ(x) (1 << ((uint32_t)(x) & 0x1F))
-#define enable_NVIC_IRQ(x)  (1 << ((uint32_t)(x) & 0x1F))
-
+#define __UART0_interrupt     (12)
+#define __NVIC_SET_EN_REG     (*((volatile uint32_t *)(0xE000E100)))
+#define __NVIC_CLR_EN_REG     (*((volatile uint32_t *)(0xE000E180)))
+#define __NVIC_SET_REG        (*((volatile uint32_t *)(0xE000E200)))
+#define __disable_NVIC_IRQ(x) (__NVIC_CLR_EN_REG |= (x))
+#define __enable_NVIC_IRQ(x)  (__NVIC_SET_EN_REG |= (x))
+#define __UART0_IRQ_NUM       (1 << 12)
+#define __ALL_IRQ_NUM         (0xFFFF)
 /*Define the Macros to turn on and off the global interrupts*/
-#define START_CRITICAL(x)  (enable_NVIC_IRQ(x))
-#define END_CRITICAL(x)    (disable_NVIC_IRQ(x)) 
+#define START_CRITICAL(x)     (__enable_NVIC_IRQ(x))
+#define END_CRITICAL(x)       (__disable_NVIC_IRQ(x))
+
+
+extern CB_t *UART_RX_buffer;
+extern CB_t *UART_TX_buffer;
+extern uint8_t receive_flag;
+
 
 /*********************************************************************************************/
 /***********************************UART_Configure********************************************/
@@ -201,7 +198,7 @@ This is a short function.
 @return - void
 **********************************************************************************************/
 
-void UART0_IRQHandler();
+void UART0_IRQHandler(void);
 
 #endif /*__UART_H__*/
 

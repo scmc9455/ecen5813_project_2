@@ -123,6 +123,9 @@ memory.s:memory.c
 project1.s:project1.c
 	$(CC) $(CFLAGS) $(INCLUDES) project1.c -S -o project1.s
 
+project2.s:project2.c
+	$(CC) $(CFLAGS) $(INCLUDES) project2.c -S -o project2.s
+
 data1.s:data1.c
 	$(CC) $(CFLAGS) $(INCLUDES) data1.c -S -o data1.s
 
@@ -156,6 +159,9 @@ memory.i:memory.c
 
 project1.i:project1.c
 	$(CC) $(CFLAGS) $(INCLUDES)  project1.c -E -o project1.i
+
+project2.i:project2.c
+	$(CC) $(CFLAGS) $(INCLUDES)  project2.c -E -o project2.i
 
 data1.i:data1.c
 	$(CC) $(CFLAGS) $(INCLUDES) data1.c -E -o data1.i 
@@ -193,6 +199,9 @@ memory.o:memory.c
 
 project1.o:project1.c
 	$(CC) $(CFLAGS) $(INCLUDES) project1.c -c -o project1.o
+
+project2.o:project2.c
+	$(CC) $(CFLAGS) $(INCLUDES) project2.c -c -o project2.o
 
 data1.o:data1.c
 	$(CC) $(CFLAGS) $(INCLUDES) data1.c -c -o data1.o

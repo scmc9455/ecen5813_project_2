@@ -22,8 +22,6 @@ Created for ECEN5813
 **********************************************************************************************/
 #include "gpio.h"
 
-#include <stdint.h>
-#include <stdlib.h>
 
 /*********************************************************************************************/
 /******************************GPIO_Configure*************************************************/
@@ -39,20 +37,20 @@ Blue LED is PORTD-Pin1 initial state off
 @return - void
 **********************************************************************************************/
 
-void GPIO_Configure()
+void GPIO_Configure(void)
 {
     /*Turn the clock on for the portB and portD modules*/
-    SIM_SCGC5_ADDR |= (SIM_SCGC5_PORTB + SIM_SCGC5_PORTD);
+    __SIM_SCGC5_ADDR |= (__SIM_SCGC5_PORTB + __SIM_SCGC5_PORTD);
 
-    PORTB_PCR18 |= ALT1; /*Sets the portB_pin18 to be gpio*/
-    PORTB_PCR19 |= ALT1; /*Sets the portB_pin19 to be gpio*/
-    PORTD_PCR1 |= ALT1;  /*Sets the portD_pin1 to be gpio*/
+    __PORTB_PCR18 |= __ALT1; /*Sets the portB_pin18 to be gpio*/
+    __PORTB_PCR19 |= __ALT1; /*Sets the portB_pin19 to be gpio*/
+    __PORTD_PCR1 |= __ALT1;  /*Sets the portD_pin1 to be gpio*/
 
-    GPIOB_PDDR |= (RGB_RED_PIN + RGB_GREEN_PIN); /*Sets pin 18 and pin 19 to outputs*/
-    GPIOD_PDDR |= (RGB_BLUE_PIN); /*Sets portd pin 1 to output*/
+    __GPIOB_PDDR |= ((1 << __RGB_RED_PIN) + (1 << __RGB_GREEN_PIN)); /*Sets pin 18 and pin 19 to outputs*/
+    __GPIOD_PDDR |= (1 << __RGB_BLUE_PIN); /*Sets portd pin 1 to output*/
 
-    GPIOB_PCOR |= (RGB_RED_PIN + RGB_GREEN_PIN); /*converts pin 18 and pin 19 to logic low*/
-    GPIOD_PCOR |= (RGB_BLUE_PIN); /*converts port d pin 1 to logic low*/
+    __GPIOB_PCOR |= ((1 << __RGB_RED_PIN) + (1 << __RGB_GREEN_PIN)); /*converts pin 18 and pin 19 to logic low*/
+    __GPIOD_PCOR |= (1 << __RGB_BLUE_PIN); /*converts port d pin 1 to logic low*/
 }
 
 /*********************************************************************************************/
@@ -64,9 +62,9 @@ void GPIO_Configure()
 @return - void
 **********************************************************************************************/
 
-void Toggle_Red_LED()
+void Toggle_Red_LED(void)
 {
-    GPIOB_PTOR |= (RGB_RED_PIN); /*toggles portb bit 18 in the toggle register */
+    __GPIOB_PTOR |= (__RGB_RED_PIN); /*toggles portb bit 18 in the toggle register */
 }
 
 /*********************************************************************************************/
@@ -80,7 +78,7 @@ void Toggle_Red_LED()
 
 void PORTB_Set(uint8_t bit_num)
 {
-    GPIOB_PSOR |= (0x1 << bit_num);/*sets the value in the port b register based on bit number*/
+    __GPIOB_PSOR |= (0x1 << bit_num);/*sets the value in the port b register based on bit number*/
 }
 
 /*********************************************************************************************/
@@ -94,7 +92,7 @@ void PORTB_Set(uint8_t bit_num)
 
 void PORTD_Set(uint8_t bit_num)
 {
-    GPIOD_PSOR |= (0x1 << bit_num);/*sets the value in the port d register based on bit number*/
+    __GPIOD_PSOR |= (0x1 << bit_num);/*sets the value in the port d register based on bit number*/
 }
 
 /*********************************************************************************************/
@@ -108,7 +106,7 @@ void PORTD_Set(uint8_t bit_num)
 
 void PORTB_Clear(uint8_t bit_num)
 {
-    GPIOB_PCOR |= (0x1 << bit_num); /*clears the value in port b register based on bit number*/
+    __GPIOB_PCOR |= (0x1 << bit_num); /*clears the value in port b register based on bit number*/
 }
 
 /*********************************************************************************************/
@@ -122,7 +120,7 @@ void PORTB_Clear(uint8_t bit_num)
 
 void PORTD_Clear(uint8_t bit_num)
 {
-    GPIOD_PCOR |= (0x1 << bit_num); /*clears the value in port d register from bit number*/    
+    __GPIOD_PCOR |= (0x1 << bit_num); /*clears the value in port d register from bit number*/
 }
 
 /*********************************************************************************************/
@@ -136,7 +134,7 @@ void PORTD_Clear(uint8_t bit_num)
 
 void PORTB_Toggle(uint8_t bit_num)
 {
-    GPIOB_PTOR |= (0x1 << bit_num); /*toggles port b register based on bit number*/    
+    __GPIOB_PTOR |= (0x1 << bit_num); /*toggles port b register based on bit number*/
 }
 
 /*********************************************************************************************/
@@ -150,7 +148,7 @@ void PORTB_Toggle(uint8_t bit_num)
 
 void PORTD_Toggle(uint8_t bit_num)
 {
-    GPIOD_PTOR |= (0x1 << bit_num); /*toggles port d register based on bit number*/       
+    __GPIOD_PTOR |= (0x1 << bit_num); /*toggles port d register based on bit number*/
 }
 
 /*********************************************************************************************/

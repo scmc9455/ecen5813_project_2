@@ -36,11 +36,11 @@ Created for ECEN5813
 #include <stdlib.h>
 
 typedef struct {
-  volatile uint8_t *base; /*allocated size of memory*/
-  volatile uint8_t *head; /*pointer to the newest item in the buffer*/
-  volatile uint8_t *tail; /*pointer to the oldest item in the buffer*/
-  volatile size_t length; /*set dynamically and is the number of items allocated*/
-  volatile size_t count;  /*current number of items in the buffer*/
+  uint8_t *base; /*allocated size of memory*/
+  uint8_t *head; /*pointer to the newest item in the buffer*/
+  uint8_t *tail; /*pointer to the oldest item in the buffer*/
+  size_t length; /*set dynamically and is the number of items allocated*/
+  size_t count;  /*current number of items in the buffer*/
 }CB_t;
 
 typedef enum {
@@ -67,7 +67,7 @@ The buffer allocates Head,Tail, and count
 @return - status of the buffer
 **********************************************************************************************/
 
-CB_e CB_init(CB_t **buf_ptr,size_t length);
+CB_e CB_init(CB_t **buf_ptr,uint32_t length);
 
 /*********************************************************************************************/
 /***********************************CB_Destroy************************************************/

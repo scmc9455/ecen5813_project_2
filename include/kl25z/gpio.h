@@ -27,12 +27,10 @@ Created for ECEN5813
 #include <stdlib.h>
 
 /*BITS corresponding to the pins of the register*/
-#ifndef SIM_SCGC5_ADDR
-#define SIM_SCGC5_ADDR     (*((volatile uint32_t *)(0x40048038)))
-#endif
+#define __SIM_SCGC5_ADDR     (*((volatile uint32_t *)(0x40048038)))
 
-#define SIM_SCGC5_PORTB    ((uint32_t)1 << 10)
-#define SIM_SCGC5_PORTD    ((uint32_t)1 << 12)
+#define __SIM_SCGC5_PORTB    ((uint32_t)1 << 10)
+#define __SIM_SCGC5_PORTD    ((uint32_t)1 << 12)
 
 /*BITS corresponding to the pins of the register*/
 #define PIN18              ((uint8_t)18)
@@ -40,37 +38,37 @@ Created for ECEN5813
 #define PIN1               ((uint8_t)1)
 
 /*direct dereferencing to PORTB PTB18 crtl*/
-#define PORTB_PCR18        (*((volatile uint32_t *)(0x4004A048))) 
+#define __PORTB_PCR18        (*((volatile uint32_t *)(0x4004A048))) 
 /*direct dereferencing to PORTB PTB18 crtl*/
-#define PORTB_PCR19        (*((volatile uint32_t *)(0x4004A04C))) 
+#define __PORTB_PCR19        (*((volatile uint32_t *)(0x4004A04C))) 
 /*direct dereferencing to PORTD PTD1 crtl*/
-#define PORTD_PCR1         (*((volatile uint32_t *)(0x4004C004)))
+#define __PORTD_PCR1         (*((volatile uint32_t *)(0x4004C004)))
 /*Value specified for the PCR functions*/
-#define ALT1               (0b001 << 8) 
+#define __ALT1               (0b001 << 8) 
 
 /*direct dereferencing to GPIOB direction crtl register*/
-#define GPIOB_PDDR         (*((volatile uint32_t *)(0x400FF054))) 
+#define __GPIOB_PDDR         (*((volatile uint32_t *)(0x400FF054))) 
 /*direct dereferencing to GPIOD direction crtl register*/
-#define GPIOD_PDDR         (*((volatile uint32_t *)(0x400FF0D4))) 
+#define __GPIOD_PDDR         (*((volatile uint32_t *)(0x400FF0D4))) 
 
 /*direct dereferencing to GPIOB SET crtl register*/
-#define GPIOB_PSOR         (*((volatile uint32_t *)(0x400FF044)))
+#define __GPIOB_PSOR         (*((volatile uint32_t *)(0x400FF044)))
 /*direct dereferencing to GPIOD SET crtl register*/
-#define GPIOD_PSOR         (*((volatile uint32_t *)(0x400FF0C4)))
+#define __GPIOD_PSOR         (*((volatile uint32_t *)(0x400FF0C4)))
 
 /*direct dereferencing to GPIOB CLEAR crtl register*/
-#define GPIOB_PCOR         (*((volatile uint32_t *)(0x400FF048)))
+#define __GPIOB_PCOR         (*((volatile uint32_t *)(0x400FF048)))
 /*direct dereferencing to GPIOD CLEAR crtl register*/
-#define GPIOD_PCOR         (*((volatile uint32_t *)(0x400FF088)))
+#define __GPIOD_PCOR         (*((volatile uint32_t *)(0x400FF088)))
  
 /*direct dereferencing to GPIOB TOGGLE crtl register*/
-#define GPIOB_PTOR         (*((volatile uint32_t *)(0x400FF04C)))
+#define __GPIOB_PTOR         (*((volatile uint32_t *)(0x400FF04C)))
 /*direct dereferencing to GPIOD TOGGLE crtl register*/
-#define GPIOD_PTOR         (*((volatile uint32_t *)(0x400FF0CC)))
+#define __GPIOD_PTOR         (*((volatile uint32_t *)(0x400FF0CC)))
 
-#define RGB_RED_PIN        (PIN18)
-#define RGB_GREEN_PIN      (PIN19)
-#define RGB_BLUE_PIN       (PIN1)
+#define __RGB_RED_PIN        (PIN18)
+#define __RGB_GREEN_PIN      (PIN19)
+#define __RGB_BLUE_PIN       (PIN1)
 
 #define RGB_RED_ON()       (PORTB_Set( RGB_RED_PIN ))
 #define RGB_RED_OFF()      (PORTB_Clear( RGB_RED_PIN ))
@@ -98,7 +96,7 @@ Blue LED is PORTD-Pin1 initial state off
 @return - void
 **********************************************************************************************/
 
-void GPIO_Configure();
+void GPIO_Configure(void);
 
 /*********************************************************************************************/
 /******************************Toggle_RED_LED*************************************************/
@@ -109,7 +107,7 @@ void GPIO_Configure();
 @return - void
 **********************************************************************************************/
 
-void Toggle_Red_LED();
+void Toggle_Red_LED(void);
 
 /*********************************************************************************************/
 /******************************PORTB_Set******************************************************/

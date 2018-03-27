@@ -13,9 +13,10 @@ UART Setup
 - 8-bit data transfers
 - No Parity
 - The fastest BAUD is 115200/38400/57200 Baud
-BAUD Value is not hardcoded
+BAUD Value is not hard-coded
 
 This file header contains functions
+UART Sys_Init_UART
 1. UART_configure
 2. UART_send
 3. UART_send_n
@@ -49,52 +50,44 @@ This includes port, baud and UART module.
 status_e UART_configure(uint32_t baud)
 {
     uint16_t prescaler;
-    uint8_t prescaler_l, prescaler_h;
 
-    /*This code will configure PORTA UART0*/
-    SIM_SCGC5 |= SIM_PORTA_MASK;
-    /*Configure the SIM for UART0*/
-    SIM_SCGC4 |= SIM_UART0_MASK;
+    /*PortA clock gate turn on*/
+    __SIM_SCGC5 |= SIM_PORTA_CG;
+    /*Enable the clock gate for the UART0*/
+    __SIM_SCGC4 |=SIM_UART0_CG;
+    /*Change the UART0 Clock to MCGFLLCLK*/
+    __SIM_SOPT2 |= SIM_UART0SRC_MCGFLLCLK; /*Clock=21MHz is sourcing the UART*/
+    __SIM_SOPT2 &= SIM_PLLFLLSEL; /*Selects the FLL for the input*/
+    /*UART open drain disabled and TX/RX from pins*/
+    __SIM_SOPT5 &= ~(SIM_UART0ODE + SIM_UART0RXSRC + SIM_UART0TXSRC);
     /*Set the port characteristics*/
     /*For PORTA-UART0, pin 1=RX and pin2=TX*/
-    PORTA_PCR1 &= ALT0; /*ALT0 and the &= resets the bits*/
-    PORTA_PCR1 |= ALT2; /*ALT2 is UART for this port*/
-    PORTA_PCR2 &= ALT0; /*ALT0 and the &= resets the bits*/
-    PORTA_PCR2 |= ALT2; /*ALT2 is UART for this port*/
-
-    /*Set the UART clock to be MGCFLLCLK through SOPT2 SIM module*/
-    SIM_SOPT2 |= UART0SRC_MCGFLLCLK;
-    SIM_SOPT2 &= ~PLLFLLSEL; /*Selects the FLL clock for UART instead of PLL*/
-
-    /*Changing the UART0 to output through the UART0 pins*/
-    SIM_SOPT5 &= ~(UART0RXSRC + UART0TXSRC);
+    __PORTA_PCR1 &= __ALT0; /*ALT0 and the &= resets the bits*/
+    __PORTA_PCR1 |= __ALT2; /*ALT2 is UART for this port*/
+    __PORTA_PCR2 &= __ALT0; /*ALT0 and the &= resets the bits*/
+    __PORTA_PCR2 |= __ALT2; /*ALT2 is UART for this port*/
 
     /*Setting the UART proper setup*/
-    UART0_BDH &= ~(UART_STOP_BIT); /*clears the stop bit to get 1-bit ports*/
+    __UART0_BDH &= ~(__UART_STOP_BIT); /*clears the stop bit to get 1 stop bit*/
     /*clears the UART transmission data to 8-bits and disabling the parity*/
-    UART0_C1 &= ~(UART_8BIT + UART_PARITY_EN); 
+    __UART0_C1 &= ~(__UART_8BIT + __UART_PARITY_EN);
     /*Sets the transmission to LSB*/
-    UART0_S2 &= ~UART_MSB_FIRST;     
-
-    /*Set up the over sampling, defualt value is *16*/
-    UART0_C4 |= OSR_16x; 
-    /*Set the BAUD rate in the BDL and BDH register*/
-    /*The calculation is for the prescaler= MCGFLLCLK_4MHz/((OSR+1)*baudrate)*/
-    UART0_BDH &= ~(UART_SBR_BDH); /*Clearing out the prescaler*/
-    UART0_BDL &= ~(UART_SBR_BDL); /*Clearing out the prescaler*/
- 
-    /*Value is calculated for the prescaler and put into a variable to be broken up*/
-    prescaler = (MCGFLLCLK_4MHz/((OSR_16x + 1) * baud));
-    /*put the low value into the prescaler low so it fits into the register*/
-    prescaler_l = (uint8_t)(prescaler);
-    /*subtracting the low value from the prescaler bit then leaves the leftover*/
-    prescaler_h = (uint8_t)((prescaler)-(uint16_t)(prescaler_l));
-    /*put those vavlues into the register*/
-    UART0_BDH |= (prescaler_h);
-    UART0_BDL |= (prescaler_l);
-
+    __UART0_S2 &= ~(__UART_MSB_FIRST);
+    /*Set up the over sampling, default value is *16*/
+    __UART0_C4 |= __OSR_16;
+    /*The calculation is for the pre-scaler= MCGFLLCLK/((OSR+1)*baud-rate)*/
+    __UART0_BDH &= ~(__UART_SBR_BDH); /*Clearing out the pre-scaler*/
+    __UART0_BDL &= ~(__UART_SBR_BDL); /*Clearing out the pre-scaler*/
+    /*Value is calculated for the pre-scaler and put into a variable to be broken up*/
+    prescaler = BAUD_MOD(baud);
+    /*put those values into the register*/
+    __UART0_BDH |= (uint8_t)((prescaler & BDH_MASK) >> 8);
+    __UART0_BDL = (uint8_t)(prescaler & BDL_MASK);
+    /*Enable receiver interrupt*/
     /*enable the UART transmit and receive now that the module is configured*/
-    UART0_C2 |= (UART_TX_EN + UART_RX_EN);
+    __UART0_C2 |= (__UART_RIE + __UART_TX_EN + __UART_RX_EN);
+    /*Enables the interrupts in the NVIC*/
+    START_CRITICAL(__UART0_IRQ_NUM);
 
     return UART_SUCCESS;
 }
@@ -114,14 +107,16 @@ Send and receive requests can be enable through interrupts outside of this filei
 
 status_e UART_send(uint8_t *data)
 {
-    if(data==NULL)
+	if(data==NULL)
     {
         return UART_FAIL;
     }
-    
-    while((UART0_S1 & UART_TDRE) == 0); /*wait for the buffer to be open, then transmit*/
-    UART0_D = *data;
 
+    /*Performing blocking by doing a while loop*/
+    while((__UART0_S1 & __UART_TDRE) == 0){}; /*wait for the buffer to be open, then transmit*/
+    /*Load the data into the transmit register once the buffer is emtpy*/
+    __UART0_D = *data;
+    
     return UART_SUCCESS;
 }
 
@@ -151,8 +146,8 @@ status_e UART_send_n(uint8_t *data, size_t length)
     /*run a loop base on the length of the data to be able to transmit the whole block*/
     for(i=0;i<length;i++)
     {
-        while((UART0_S1 & UART_TDRE) == 0); /*wait for the buffer to be open, then transmit*/
-        UART0_D = *data;
+        while((__UART0_S1 & __UART_TDRE) == 0); /*wait for the buffer to be open, then transmit*/
+        __UART0_D = *data;
         data += 1;
     }
      
@@ -166,7 +161,7 @@ status_e UART_send_n(uint8_t *data, size_t length)
 
 This function is for UART module to recieve data through this module in one byte
 This function blocks until receive data is complete.
-Send and receive requests can be enable through interrupts outside of this filein main.
+Send and receive requests can be enable through interrupts outside of this file in main.
 
 @param - *data: pointer to the location to put received data
 @return - status of the UART
@@ -179,8 +174,8 @@ status_e UART_receive(uint8_t *data)
        return UART_FAIL;
     } 
 
-    while((UART0_S1 & UART_RDRF) == 0); /*wait for the buffer to be full receive*/
-    *data = UART0_D; /*Stores the value from the receive buffer into the data pointer*/
+    while((__UART0_S1 & __UART_RDRF) == 0){}; /*wait for the buffer to be full receive*/
+    *data = __UART0_D; /*Stores the value from the receive buffer into the data pointer*/
 
     return UART_SUCCESS;
 }
@@ -211,8 +206,8 @@ status_e UART_receive_n(uint8_t *data, size_t length)
     /*run a loop base on the length of the data to be able to transmit the whole block*/
     for(i=0;i<length;i++)
     {
-        while((UART0_S1 & UART_RDRF) == 0); /*wait for the buffer to be full receive*/
-        *data = UART0_D; /*Stores the value from the receive buffer into the data pointer*/
+        while((__UART0_S1 & __UART_RDRF) == 0); /*wait for the buffer to be full receive*/
+        *data = __UART0_D; /*Stores the value from the receive buffer into the data pointer*/
         data += 1; /*increase the data pointer*/
     }
 
@@ -232,27 +227,35 @@ This is a short function.
 @return - void
 **********************************************************************************************/
 
-void UART0_IRQHandler()
+void UART0_IRQHandler(void)
 {
     /*Disables any more UART interrupts from happening*/
-    __NVIC_CLEAR_REG |= disable_NVIC_IRQ(UART0_interrupt);
-
+    END_CRITICAL(__UART0_IRQ_NUM);
     /*If a transmit interrupt was enabled and the UART TX data register is empty*/
     /*store the global variable into the data register*/
-    if(((UART0_C2 & UART_TIE)!=0) && ((UART0_S1 & UART_TDRE) != 0))
+    if((((__UART0_C2 & __UART_TIE))!=0) && ((__UART0_S1 & __UART_TDRE) != 0))
     {
-        UART0_C2 &= ~(UART_TIE); /*Clear the transmit interrupt enable*/ 
-        /*Re-enbles UART interrupts prior to leaving the handler*/
-        __NVIC_SET_REG |= enable_NVIC_IRQ(UART0_interrupt);
+    	__UART0_C2 &= ~(__UART_TIE); /*Clear the transmit interrupt enable*/
+    	if((UART_TX_buffer)->count == 0)
+    	{
+            START_CRITICAL(__UART0_IRQ_NUM);
+            return;
+    	}
+    	/*Check to see if circ_buf is empty*/
+    	UART_send((UART_TX_buffer)->head);
+        /*Re-enables UART interrupts prior to leaving the handler*/
+        START_CRITICAL(__UART0_IRQ_NUM);
         return;
     }
 
     /*If a receive interrupt was enabled and the UART RX data register is full*/
     /*take the data register and put it into the global variable*/
-    if(((UART0_C2 & UART_RIE)!=0) && ((UART0_S1 & UART_RDRF)!=0))
+    if(((__UART0_C2 & __UART_RIE)!=0) && ((__UART0_S1 & __UART_RDRF)!=0) && ((UART_RX_buffer)->count < (UART_RX_buffer)->length))
     {
-        /*Re-enbles UART interrupts prior to leaving the handler*/
-        __NVIC_SET_REG |= enable_NVIC_IRQ(UART0_interrupt);
+    	UART_receive((UART_RX_buffer)->head);
+    	receive_flag = 1; /*set the global variable for receive flag*/
+        /*Re-enables UART interrupts prior to leaving the handler*/
+    	START_CRITICAL(__UART0_IRQ_NUM);
         return;
     }
 

@@ -19,8 +19,8 @@ This file is the header for the arch_arm32.c file and includes the functions
 Created for ECEN5813
 **********************************************************************************************/
 
-#ifndef __ARCH_ARM32__
-#define __ARCH_ARM32__
+#ifndef __ARCH_ARM32_H__
+#define __ARCH_ARM32_H__
 
 #include <stdint.h>
 
@@ -55,7 +55,7 @@ This is meant to be an inline function.
 @return - the endianness of the processor
 **********************************************************************************************/
 
-static inline uint32_t ARM32_AIRCR_get_endianness_setting() __attribute__((always_inline));
+uint32_t ARM32_AIRCR_get_endianness_setting(void);
 
 
 /*********************************************************************************************/
@@ -70,7 +70,7 @@ dereferenced.
 @return - value of the alignment
 **********************************************************************************************/
 
-static inline uint32_t ARM32_CCR_get_stack_alignment() __attribute__ ((always_inline));
+uint32_t ARM32_CCR_get_stack_alignment(void);
 
 /*********************************************************************************************/
 /********************ARM32_CPUID_get_part_number**********************************************/
@@ -84,7 +84,7 @@ the direct memory dereferenced value
 @return - part number of ARM core
 **********************************************************************************************/
 
-static inline uint32_t ARM32_CPUID_get_part_number() __attribute__ ((always_inline));
+uint32_t ARM32_CPUID_get_part_number(void);
 
 /*********************************************************************************************/
 /********************ARM32_CCR_enable_divide_by_zero******************************************/
@@ -98,7 +98,7 @@ This function uses a direct memory dereference
 @return - 1 if the function ran correctly
 **********************************************************************************************/
 
-static inline uint32_t ARM32_CCR_enable_divide_by_zero() __attribute__ ((always_inline));
+uint32_t ARM32_CCR_enable_divide_by_zero(void);
 
 /*********************************************************************************************/
 /*****************ARM32_CCR_enable_unaligned access_trap**************************************/
@@ -111,7 +111,7 @@ This function is used to set the value of the unaligned memory trap bit in CCR t
 @return - 1 if the function ran correctly
 **********************************************************************************************/
 
-static inline uint32_t ARM32_CCR_enable_unaligned_access_trap() __attribute__ ((always_inline));
+uint32_t ARM32_CCR_enable_unaligned_access_trap(void);
 
 /*********************************************************************************************/
 /*********************ARM32_create_unaligned_access_trap**************************************/
@@ -124,7 +124,7 @@ This function is used to perform unaligned access so that is triggers the trap f
 @return - void
 **********************************************************************************************/
 
-static inline void ARM32_create_unaligned_access_trap() __attribute__ ((always_inline));
+void ARM32_create_unaligned_access_trap(void);
 
 /*********************************************************************************************/
 /*********************ARM32_create_divide_by_zero_trap****************************************/
@@ -138,10 +138,10 @@ This function should not return and should create a usage fault exception
 @return - should not return
 **********************************************************************************************/
 
-static inline void ARM32_create_divide_by_zero_trap() __attribute__ ((always_inline));
+void ARM32_create_divide_by_zero_trap(void);
 
 
-#endif /*_ARCH_ARM32_*/
+#endif /*__ARCH_ARM32_H__*/
 
 /*********************************************************************************************/
 /**************************************End of File********************************************/

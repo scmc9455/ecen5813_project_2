@@ -35,7 +35,7 @@ This is meant to be an inline function.
 @return - the endianness of the processor
 **********************************************************************************************/
 
-__attribute__ ((always_inline)) static inline uint32_t ARM32_AIRCR_get_endianness_setting()
+uint32_t ARM32_AIRCR_get_endianness_setting(void)
 {
   /*The below statement will return the value of the endian value*/
   /*and will shift down by the offset to return the value*/
@@ -54,7 +54,7 @@ dereferenced.
 @return - value of the alignment
 **********************************************************************************************/
 
-__attribute__ ((always_inline)) static inline uint32_t ARM32_CCR_get_stack_alignment()
+uint32_t ARM32_CCR_get_stack_alignment(void)
 {
   /*The below statement will return the value of the stack alignment from CCR*/
   /*and will shift down by the offset to return either 1(8-byte aligned) or 0(4-byte aligned)*/
@@ -73,7 +73,7 @@ the direct memory dereferenced value
 @return - part number of ARM core
 **********************************************************************************************/
 
-__attribute__ ((always_inline)) static inline uint32_t ARM32_CPUID_get_part_number()
+uint32_t ARM32_CPUID_get_part_number(void)
 {
     /*This line deferences the part number and shift by the offset to return 0xC24*/
     return (((__CPUID) & (__CPUID_PART_NO_MASK)) >> __CPUID_PART_NO_OFFSET);
@@ -91,7 +91,7 @@ This function uses a direct memory dereference
 @return - 1 if the function ran correctly
 **********************************************************************************************/
 
-__attribute__ ((always_inline)) static inline uint32_t ARM32_CCR_enable_divide_by_zero()
+uint32_t ARM32_CCR_enable_divide_by_zero(void)
 {
     /*The below value sets the divde by zero trap in the CCR register direct de-ref*/
     __CCR |= __CCR_DIVIDE_BY_ZERO_TRAP_MASK;
@@ -110,7 +110,7 @@ This function is used to set the value of the unaligned memory trap bit in CCR t
 @return - 1 if the function ran correctly
 **********************************************************************************************/
 
-__attribute__ ((always_inline)) static inline uint32_t ARM32_CCR_enable_unaligned_access_trap()
+uint32_t ARM32_CCR_enable_unaligned_access_trap(void)
 {
   /*The below value sets the unaligned access trap in the CCR register direct de-ref*/
     __CCR |= __CCR_UNALIGNED_ACCESS_TRAP_MASK;
@@ -129,7 +129,7 @@ This function is used to perform unaligned access so that is triggers the trap f
 @return - void
 **********************************************************************************************/
 
-__attribute__ ((always_inline)) static inline void ARM32_create_unaligned_access_trap()
+void ARM32_create_unaligned_access_trap(void)
 {
    #if defined (__GNUC__)
    #pragma GCC diagnostic ignored "-Wunused-but-set-variable"
@@ -154,7 +154,7 @@ This function should not return and should create a usage fault exception
 @return - should not return
 **********************************************************************************************/
 
-__attribute__ ((always_inline)) static inline void ARM32_create_divide_by_zero_trap()
+void ARM32_create_divide_by_zero_trap(void)
 {
   /*The line below is the code for the tigger of a divide by zero event*/
   /*CODE WILL NOT RUN ON KL25Z*/
